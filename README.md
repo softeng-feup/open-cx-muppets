@@ -3,7 +3,7 @@
 MicroMeeting is an Open Source app.... (work in progress)
 
 ## Our Vision
-We want to build something that improves everyone's conference experience, by taking down social barriers and promoting a **socially dynamic** environment
+Our product aims to improve everyone's conference experience, by taking down social barriers and promoting a **socially dynamic** environment
 where people engage in conversations **based on their interests**, **trade information** seamlessly and **interact** more with each other.
 
 ## User Stories
@@ -16,3 +16,10 @@ Users have a lot of needs. We want our product to satisfy the following ones:
 6. **I want** to trade information with my badge **so that** it becomes funnier and easier;
 7. **I want** to use an app to enhance my conference experience **so that** I can use it easily;
 8. **I want** to be able to accept or decline a proposal for a connection **so that** I can choose who I stay in touch with.
+
+## Technologies To Use
+To develop our product we will use:
+* [Flutter](https://flutter.dev/), for the app design;
+* [Python](https://www.python.org/), to program the [Micro:bit](https://microbit.org/);
+* [Trello](https://trello.com/), to help on task management and team coordination;
+* Lots of passion and hard work, to make a great app that will deliver on the user needs.
