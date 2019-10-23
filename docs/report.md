@@ -1,4 +1,4 @@
-# openCX-*your module name* Development Report
+# openCX-Muppets Development Report
 
 Welcome to the documentation pages of the **MicroMeeting** of **openCX**!
 
@@ -26,30 +26,23 @@ Please contact us!
 
 Thank you!
 
-*team members names*
+Carlos Jorge Direito Albuquerque (up201706735@fe.up.pt)
+
+Gaspar Santos Pinheiro (up201704700@fe.up.pt)
+
+Sofia de Araujo Lajes (up20170466@fe.up.pt)
+
+Vitor Emanuel Moreira Ventuzelos (up201706403@fe.up.pt)
 
 ---
 
 ## Product Vision
-Start by defining a clear and concise vision for your module, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form. It provides a "high concept" of the product for marketers, developers, and managers.
-
-A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future.
-
-To learn more about how to write a good product vision, please see also:
-* [How To Create A Convincing Product Vision To Guide Your Team, by uxstudioteam.com](https://uxstudioteam.com/ux-blog/product-vision/)
-* [Product Management: Product Vision, by ProductPlan](https://www.productplan.com/glossary/product-vision/)
-* [Vision, by scrumbook.org](http://scrumbook.org/value-stream/vision.html)
-* [How to write a vision, by dummies.com](https://www.dummies.com/business/marketing/branding/how-to-write-vision-and-mission-statements-for-your-brand/)
-* [20 Inspiring Vision Statement Examples (2019 Updated), by lifehack.org](https://www.lifehack.org/articles/work/20-sample-vision-statement-for-the-new-startup.html)
+Our product aims to improve everyone's conference experience, by taking down social barriers and promoting a socially dynamic environment where people engage in conversations based on their interests, trade information seamlessly and interact more with each other.
 
 ---
-## Elevator Pitch
-Draft a small text to help you quickly introduce and describe your product in a short time and a few words, a technique usually known as elevator pitch.
+## Elevator Pitch (temporary)
 
-Take a look at the following links to learn some techniques:
-* [Crafting an Elevator Pitch](https://www.mindtools.com/pages/article/elevator-pitch.htm)
-* [The Best Elevator Pitch Examples, Templates, and Tactics - A Guide to Writing an Unforgettable Elevator Speech, by strategypeak.com](https://strategypeak.com/elevator-pitch-examples/)
-* [Top 7 Killer Elevator Pitch Examples, by toggl.com](https://blog.toggl.com/elevator-pitch-examples/)
+(We aim to/With this product we want to/The aim of this product is to) facilitate spontaneous interaction between conference participants, by providing them with a means to find people with similar interests near them and initiate conversations. It's also important to us that the users can keep their privacy and power of choice, as we intend to improve their experience, not enforce anything on them. For this goal we plan to use a mobile app, installed on the user's phone, paired with Micro:Bit systems, implanted in the user's badge. The app will contain user profiles with tags for matching between them, while the Micro:Bit will simply detect nearby users and (be used to spot a succesful match via the led panel).
 
 ---
 ## Requirements
@@ -73,6 +66,12 @@ Briefly describe each use case mentioning the following:
 * **Normal Flow**. Provide a detailed description of the user actions and system responses that will take place during execution of the use case under normal, expected conditions. This dialog sequence will ultimately lead to accomplishing the goal stated in the use case name and description. This is best done as a numbered list of actions performed by the actor, alternating with responses provided by the system. 
 * **Alternative Flows and Exceptions**. Document other, legitimate usage scenarios that can take place within this use case, stating any differences in the sequence of steps that take place. In addition, describe any anticipated error conditions that could occur during execution of the use case, and define how the system is to respond to those conditions. 
 
+## Sign In/Create Account
+![Use Case exemplifying sign in and sign up on the app](https://i.imgur.com/Z39nIDV.png)
+
+When the **user** opens the app he is prompted to sign in to an existing account or to create a new one.
+
+
 ### User stories
 This section will contain the requirements of the product described as **user stories**, organized in a global **user story map** with **user roles** or **themes**.
 
@@ -80,7 +79,14 @@ For each theme, or role, you may add a small description. User stories should be
 
 A user story is a description of desired functionality told from the perspective of the user or customer. A starting template for the description of a user story is 
 
-*As a < user role >, I want < goal > so that < reason >.*
+Users have a lot of needs. We want our product to satisfy the following ones:
+1. **I want** to be able to accept or decline a proposal for a connection **so that** I can choose who I stay in touch with.
+2. **I want** to be able to choose which information I share **so that** I can protect my privacy;
+3. **I want** to easily find other people that have similar interests as me **so that** we have effective interactions;
+4. **I want** to leave a conference with more connections with people that are experient in my area **so that** I can learn new useful things;
+5. **I want** a way to overcome the awkwardness of starting a conversation **so that** I can effectively interact with others;
+6. **I want** to trade information with my badge **so that** it becomes funnier and easier;
+7. **I want** to use an app to enhance my conference experience **so that** I can use it easily;
 
 
 **INVEST in good user stories**. 
