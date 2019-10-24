@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'Homepage.dart';
+import 'Pages/Homepage.dart';
+import 'Pages/Profilepage.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  Theme theme;
 
   // This widget is the root of your application.
   @override
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
       ),
-      home: HomePage(),
+      home: ProfilePage(),
     );
   }
 }

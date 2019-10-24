@@ -1,7 +1,7 @@
-import 'package:app/Profilepage.dart';
+import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Theme.dart';
+import '../Theme.dart';
 
 class HomePage extends StatelessWidget {
 
