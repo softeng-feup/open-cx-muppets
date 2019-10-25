@@ -122,6 +122,9 @@ Users have a lot of needs. We want our product to satisfy the following ones:
 6. **I want** to trade information with my badge **so that** it becomes funnier and easier;
 7. **I want** to use an app to enhance my conference experience **so that** I can use it easily;
 
+The following image represents our current global user story map (work in progress):
+![](https://i.imgur.com/F1xfN7I.jpg)
+
 
 >**INVEST in good user stories**. 
 You may add more details after, but the shorter and complete, the better. In order to decide if the user story is good, please follow the [INVEST guidelines](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/).
