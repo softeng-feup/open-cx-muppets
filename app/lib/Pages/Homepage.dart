@@ -1,6 +1,7 @@
 import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../Animations/FadeRoute.dart';
 import '../Theme.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,9 +15,9 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             getIcon(),
             getLogo(),
-            getButton("Profile"),
-            getButton("Friends"),
-            getButton("Interests"),
+            getButton("Profile", context, ProfilePage()),
+            getButton("Friends", context, null),
+            getButton("Interests", context, null),
           ],
         ),
       ),
@@ -24,12 +25,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  getButton(String option) {
+  getButton(String option, BuildContext context, Widget destinationPage) {
     return Container(
       padding: EdgeInsets.only(top:20),
       width: 250,
       child: RaisedButton(
-        onPressed: () {},
+        //If destinationPage is null it does nothing; otherwise it transitions to the page
+        onPressed: destinationPage == null? (){} : () {
+          Navigator.push(
+            context,
+            FadeRoute(page: destinationPage),
+          );
+        },
         padding: EdgeInsets.all(12),
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(25.0),
@@ -61,7 +68,13 @@ class HomePage extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          color: teal
+          color: teal,
+          // gradient: new LinearGradient(
+          //   colors: [purpleButton, teal],
+          //   stops: [0.0, 1.0],
+          //   begin: Alignment.centerLeft,
+          //   end: Alignment.centerRight
+          // ),
       ),
       child: Center(
         child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),

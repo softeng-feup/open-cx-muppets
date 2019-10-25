@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'Pages/Homepage.dart';
-import 'Pages/Profilepage.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
       ),
-      home: ProfilePage(),
+      home: HomePage(),
     );
   }
 }
