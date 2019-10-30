@@ -1,3 +1,6 @@
+import 'package:app/Pages/ContactsPage.dart';
+import 'package:app/Pages/LoginPage.dart';
+import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/material.dart';
 
 import 'Pages/Homepage.dart';
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
