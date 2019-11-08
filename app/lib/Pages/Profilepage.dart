@@ -27,9 +27,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 getTitle(),
                 getProfilePicture(),
                 fieldBox("name"),
-                fieldBox("nacionality"),
-                fieldBox("job"),
-                fieldBox("enterprise"),
+                fieldBox("nationality"),
+                fieldBox("occupation"),
+                fieldBox("company"),
                 fieldBox("languages"),
                 contactsButton(ContactsPage())
               ],
@@ -117,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: EdgeInsets.all(12),
           color: purpleButton,
           child: Text("Contacts", style: TextStyle(fontSize: 20, color: Colors.white)),
-          onPressed: destinationPage == null? (){} : () {
+          onPressed: () {
             Navigator.push(
               context,
               FadeRoute(page: destinationPage),

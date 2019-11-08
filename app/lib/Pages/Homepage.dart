@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  getButton(String option, BuildContext context, Widget destinationPage) {
+  Widget getButton(String option, BuildContext context, Widget destinationPage) {
     return Container(
       padding: EdgeInsets.only(top:20),
       width: 250,
