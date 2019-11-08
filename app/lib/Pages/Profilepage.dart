@@ -1,4 +1,6 @@
 import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Pages/ContactsPage.dart';
+import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(),
+      appBar: PageHeader(destinationPage: HomePage()),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(
@@ -29,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 fieldBox("job"),
                 fieldBox("enterprise"),
                 fieldBox("languages"),
-                contactsButton(null)
+                contactsButton(ContactsPage())
               ],
             )
           ],

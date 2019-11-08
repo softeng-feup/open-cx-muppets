@@ -1,4 +1,7 @@
 import 'package:app/Pages/ContactsPage.dart';
+import 'package:app/Pages/FriendProfilePage.dart';
+import 'package:app/Pages/FriendsPage.dart';
+import 'package:app/Pages/InterestsPage.dart';
 import 'package:app/Pages/LoginPage.dart';
 import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }

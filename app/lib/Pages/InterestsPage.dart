@@ -1,22 +1,22 @@
 import 'package:app/Animations/FadeRoute.dart';
-import 'package:app/Pages/Profilepage.dart';
+import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
-class ContactsPage extends StatefulWidget {
-  ContactsPage({Key key, this.title}) : super(key: key);
+class InterestsPage extends StatefulWidget {
+  InterestsPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _ContactsPageState createState() => _ContactsPageState();
+  _InterestsPageState createState() => _InterestsPageState();
 }
 
-class _ContactsPageState extends State<ContactsPage> {
+class _InterestsPageState extends State<InterestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: ProfilePage()),
+      appBar: PageHeader(destinationPage: HomePage()),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(
@@ -24,8 +24,8 @@ class _ContactsPageState extends State<ContactsPage> {
             Column(
               children: <Widget>[
                 getTitle(),
-                getContacts(),
-                addContact()
+                getInterests(),
+                addInterests()
               ],
             )
           ],
@@ -48,7 +48,7 @@ class _ContactsPageState extends State<ContactsPage> {
             ),
           )
       ),
-      child: Text("Contacts", style: TextStyle(fontSize: 30, color: Colors.white), textAlign: TextAlign.center,),
+      child: Text("Interests", style: TextStyle(fontSize: 30, color: Colors.white), textAlign: TextAlign.center,),
     );
   }
 
@@ -65,13 +65,13 @@ class _ContactsPageState extends State<ContactsPage> {
     );
   }
 
-  Widget getContacts() {
+  Widget getInterests() {
     //ir buscar à database
     List<String> contact_list = List<String>();
 
-    contact_list.add("351 82937 9123");
-    contact_list.add("mock_email@gmail.com");
-    contact_list.add("verylongemail123456789@gmail.com");
+    contact_list.add("Football");
+    contact_list.add("Old French Movies");
+    contact_list.add("Astro-Physics");
 
     List<Widget> rows = List<Widget>();
 
@@ -89,24 +89,24 @@ class _ContactsPageState extends State<ContactsPage> {
 
   Widget createContactRow(String contact) {
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      padding: EdgeInsets.all(12.0),
-      width: 300,
-      decoration: BoxDecoration(
-        color: purpleButton,
+        margin: EdgeInsets.only(top: 10, bottom: 10),
+        padding: EdgeInsets.all(12.0),
+        width: 300,
+        decoration: BoxDecoration(
+          color: purpleButton,
           borderRadius: BorderRadius.circular(25.0)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(contact, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
-          Icon(Icons.clear, color: Colors.white,),
-        ],
-      )
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(contact, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
+            Icon(Icons.clear, color: Colors.white,),
+          ],
+        )
     );
   }
 
-  Widget addContact(){
+  Widget addInterests(){
     return RawMaterialButton(
       onPressed: () {},
       child: new Icon(

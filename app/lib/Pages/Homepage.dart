@@ -1,3 +1,5 @@
+import 'package:app/Pages/FriendsPage.dart';
+import 'package:app/Pages/InterestsPage.dart';
 import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,8 @@ class HomePage extends StatelessWidget {
             getIcon(),
             getLogo(),
             getButton("Profile", context, ProfilePage()),
-            getButton("Friends", context, null),
-            getButton("Interests", context, null),
+            getButton("Friends", context, FriendsPage()),
+            getButton("Interests", context, InterestsPage()),
           ],
         ),
       ),
