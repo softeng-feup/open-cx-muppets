@@ -30,12 +30,12 @@ class _MicroMeetsState extends State<MicroMeets> {
   void initState() {
     super.initState();
 
-    final Future<bool> firstRunFuture = Future.delayed(
-      Duration(seconds: 2),
+    final Future<bool> preferencesFuture = Future.delayed(
+      Duration(seconds: 3),
       () => _loadPreferences(),
     );
 
-    firstRunFuture.then((isFirstRun) {
+    preferencesFuture.then((isFirstRun) {
       setState(() {
         _firstRun = isFirstRun;
         _loading = false;
