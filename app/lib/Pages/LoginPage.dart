@@ -1,12 +1,10 @@
-import 'package:app/Pages/FriendsPage.dart';
-import 'package:app/Pages/InterestsPage.dart';
 import 'package:app/Pages/Profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
 import '../Theme.dart';
 
-class HomePage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +15,9 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             getIcon(),
             getLogo(),
-            getButton("Profile", context, ProfilePage()),
-            getButton("Friends", context, FriendsPage()),
-            getButton("Interests", context, InterestsPage()),
+            fieldBox("username"),
+            fieldBox("password"),
+            getButton("Login", context, null)
           ],
         ),
       ),
@@ -27,7 +25,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget getButton(String option, BuildContext context, Widget destinationPage) {
+  getButton(String option, BuildContext context, Widget destinationPage) {
     return Container(
       padding: EdgeInsets.only(top:20),
       width: 250,
@@ -41,7 +39,7 @@ class HomePage extends StatelessWidget {
         },
         padding: EdgeInsets.all(12),
         shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(25.0),
         ),
         color: purpleButton,
         child: Text("$option", style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -66,17 +64,38 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget fieldBox(field) {
+    return Container(
+      width: 300,
+      margin: EdgeInsets.only(bottom: 5),
+      child: TextField(
+        textAlign: TextAlign.center,
+        style: TextStyle(color: purpleButton),
+        decoration: InputDecoration(
+          labelText: field,
+          labelStyle: TextStyle(fontSize: 14, color: teal),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: teal),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: teal),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget getFooter(){
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          color: teal,
-          // gradient: new LinearGradient(
-          //   colors: [purpleButton, teal],
-          //   stops: [0.0, 1.0],
-          //   begin: Alignment.centerLeft,
-          //   end: Alignment.centerRight
-          // ),
+        color: teal,
+        // gradient: new LinearGradient(
+        //   colors: [purpleButton, teal],
+        //   stops: [0.0, 1.0],
+        //   begin: Alignment.centerLeft,
+        //   end: Alignment.centerRight
+        // ),
       ),
       child: Center(
         child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),

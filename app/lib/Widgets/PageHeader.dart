@@ -1,7 +1,14 @@
+import 'package:app/Animations/FadeRoute.dart';
 import 'package:app/Theme.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget implements PreferredSizeWidget {
+  PageHeader({
+    @required this.destinationPage
+  });
+
+  final Widget destinationPage;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -22,7 +29,15 @@ class PageHeader extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(Icons.arrow_back_ios, color: Colors.white),
+            IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+              onPressed: destinationPage == null? (){} : () {
+                Navigator.push(
+                  context,
+                  FadeRoute(page: destinationPage),
+                );
+              }
+            ),
             getLogo(),
             Icon(Icons.arrow_back_ios,color: Colors.transparent),
           ],

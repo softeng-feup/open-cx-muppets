@@ -1,3 +1,6 @@
+import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Pages/ContactsPage.dart';
+import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +17,25 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(),
+      appBar: PageHeader(destinationPage: HomePage()),
       backgroundColor: bluePage,
       body: Center(
-        child: Column(
+        child: ListView(
           children: <Widget>[
-            getTitle(),
-            getProfilePicture(),
-            nameBox(),
+            Column(
+              children: <Widget>[
+                getTitle(),
+                getProfilePicture(),
+                fieldBox("name"),
+                fieldBox("nationality"),
+                fieldBox("occupation"),
+                fieldBox("company"),
+                fieldBox("languages"),
+                contactsButton(ContactsPage())
+              ],
+            )
           ],
-        )
+        ),
       ),
       bottomNavigationBar: getFooter(),
     );
@@ -76,14 +88,15 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget nameBox() {
+  Widget fieldBox(field) {
     return Container(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0),
+      width: 300,
+      margin: EdgeInsets.only(bottom: 5),
       child: TextField(
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
-          labelText: "name",
+          labelText: field,
           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: purpleButton),
@@ -93,6 +106,24 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget contactsButton(destinationPage) {
+    return Container(
+        margin: EdgeInsets.only(top: 10),
+        width: 300,
+        child: RaisedButton(
+          padding: EdgeInsets.all(12),
+          color: purpleButton,
+          child: Text("Contacts", style: TextStyle(fontSize: 20, color: Colors.white)),
+          onPressed: () {
+            Navigator.push(
+              context,
+              FadeRoute(page: destinationPage),
+            );
+          },
+        ),
     );
   }
 }
