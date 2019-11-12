@@ -40,9 +40,9 @@ Vitor Emanuel Moreira Ventuzelos (up201706403@fe.up.pt)
 Our product aims to improve everyone's conference experience, by taking down social barriers and promoting a socially dynamic environment where people engage in conversations based on their interests, trade information seamlessly and interact more with each other.
 
 ---
-## Elevator Pitch (temporary)
+## Elevator Pitch
 
-(We aim to/With this product we want to/The aim of this product is to) facilitate spontaneous interaction between conference participants, by providing them with a means to find people with similar interests near them and initiate conversations. It's also important to us that the users can keep their privacy and power of choice, as we intend to improve their experience, not enforce anything on them. For this goal we plan to use a mobile app, installed on the user's phone, paired with Micro:Bit systems, implanted in the user's badge. The app will contain user profiles with tags for matching between them, while the Micro:Bit will simply detect nearby users and (be used to spot a succesful match via the led panel).
+We aim to facilitate spontaneous interaction between conference participants, by providing them with a means to find people with similar interests near them and initiate conversations. It's also important to us that the users can keep their privacy and power of choice, as we intend to improve their experience, not enforce anything on them. To achieve this we plan to use a mobile app, installed on the user's phone, (*paired with Micro:Bit systems, implanted in the user's badge*). The app will contain user profiles with tags for interest matching, while the Micro:Bit will simply detect nearby users.
 
 ---
 ## Requirements
