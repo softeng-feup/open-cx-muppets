@@ -2,6 +2,7 @@ import 'package:app/Animations/FadeRoute.dart';
 import 'package:app/Pages/ContactsPage.dart';
 import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/FieldBox.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:app/Widgets/PageTitle.dart';
@@ -28,11 +29,41 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 PageTitle(title: 'Profile'),
                 getProfilePicture(),
-                fieldBox("name"),
-                fieldBox("nationality"),
-                fieldBox("occupation"),
-                fieldBox("company"),
-                fieldBox("languages"),
+                FieldBox(
+                  fieldName: 'name',
+                  textColor: Colors.white,
+                  labelTextColor: Colors.white,
+                  enabledBorderColor: purpleButton,
+                  focusedBorderColor: Colors.white,
+                ),
+                FieldBox(
+                  fieldName: 'nationality',
+                  textColor: Colors.white,
+                  labelTextColor: Colors.white,
+                  enabledBorderColor: purpleButton,
+                  focusedBorderColor: Colors.white,
+                ),
+                FieldBox(
+                  fieldName: 'occupation',
+                  textColor: Colors.white,
+                  labelTextColor: Colors.white,
+                  enabledBorderColor: purpleButton,
+                  focusedBorderColor: Colors.white,
+                ),
+                FieldBox(
+                  fieldName: 'company',
+                  textColor: Colors.white,
+                  labelTextColor: Colors.white,
+                  enabledBorderColor: purpleButton,
+                  focusedBorderColor: Colors.white,
+                ),
+                FieldBox(
+                  fieldName: 'languages',
+                  textColor: Colors.white,
+                  labelTextColor: Colors.white,
+                  enabledBorderColor: purpleButton,
+                  focusedBorderColor: Colors.white,
+                ),
                 contactsButton(ContactsPage())
               ],
             )
@@ -54,28 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: new BorderRadius.circular(18.0),
       ),
       child: Center(
-        child: Image.asset('assets/images/IconWhite.png',
-        ),
-      ),
-    );
-  }
-
-  Widget fieldBox(field) {
-    return Container(
-      width: 300,
-      margin: EdgeInsets.only(bottom: 5),
-      child: TextField(
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          labelText: field,
-          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: purpleButton),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
+        child: Image.asset(
+          'assets/images/IconWhite.png',
         ),
       ),
     );
@@ -83,19 +94,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget contactsButton(destinationPage) {
     return Container(
-        margin: EdgeInsets.only(top: 10),
-        width: 300,
-        child: RaisedButton(
-          padding: EdgeInsets.all(12),
-          color: purpleButton,
-          child: Text("Contacts", style: TextStyle(fontSize: 20, color: Colors.white)),
-          onPressed: () {
-            Navigator.push(
-              context,
-              FadeRoute(page: destinationPage),
-            );
-          },
-        ),
+      margin: EdgeInsets.only(top: 10),
+      width: 300,
+      child: RaisedButton(
+        padding: EdgeInsets.all(12),
+        color: purpleButton,
+        child: Text("Contacts",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        onPressed: () {
+          Navigator.push(
+            context,
+            FadeRoute(page: destinationPage),
+          );
+        },
+      ),
     );
   }
 }
