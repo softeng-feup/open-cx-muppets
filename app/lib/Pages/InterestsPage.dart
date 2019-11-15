@@ -19,7 +19,7 @@ class _InterestsPageState extends State<InterestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: HomePage()),
+      appBar: PageHeader(),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(
@@ -112,9 +112,11 @@ class _InterestsPageState extends State<InterestsPage> {
     return RawMaterialButton(
       onPressed: () {
         createAlertDialog(this.context).then((input) {
-          setState(() {
-            this.contactList.add(input);
-          });
+          if (input != null) {
+            setState(() {
+              this.contactList.add(input);
+            });
+          }
         });
       },
       child: new Icon(

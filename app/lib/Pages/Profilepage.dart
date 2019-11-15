@@ -20,7 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: HomePage()),
+      appBar: PageHeader(),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(

@@ -19,7 +19,7 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: HomePage()),
+      appBar: PageHeader(),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(

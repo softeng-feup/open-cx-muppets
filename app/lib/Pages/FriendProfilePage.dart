@@ -15,7 +15,7 @@ class FriendProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: FriendsPage()),
+      appBar: PageHeader(),
       backgroundColor: Colors.white,
       body: Center(
         child: ListView(
