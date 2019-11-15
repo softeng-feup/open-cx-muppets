@@ -1,6 +1,7 @@
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/FriendTitle.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class FriendProfilePage extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                getTitle(),
+                FriendTitle(name: name.toString(), color: bluePage),
                 getProfilePicture(),
                 Row(children: <Widget>[
                   getInfo(),
@@ -34,14 +35,6 @@ class FriendProfilePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Footer(color: bluePage),
-    );
-  }
-
-  Container getTitle() {
-    return Container(
-      width: 200,
-      padding: EdgeInsets.only(top: 20),
-      child: Text("$name", style: TextStyle(fontSize: 30, color: bluePage), textAlign: TextAlign.center,),
     );
   }
 

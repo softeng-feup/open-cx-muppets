@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class Footer extends StatelessWidget {
   final Color color;
 
-  Footer({
-    @required this.color
-  });
+  Footer({@required this.color});
 
   @override
   Widget build(BuildContext context) {

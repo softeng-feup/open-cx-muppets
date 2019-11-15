@@ -2,6 +2,7 @@ import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
+import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 
 class InterestsPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _InterestsPageState extends State<InterestsPage> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                getTitle(),
+                PageTitle(title: 'Interests'),
                 getInterests(),
                 getInterestsButton()
               ],
@@ -34,26 +35,6 @@ class _InterestsPageState extends State<InterestsPage> {
         ),
       ),
       bottomNavigationBar: Footer(color: purpleButton),
-    );
-  }
-
-  Widget getTitle() {
-    return Container(
-      width: 200,
-      padding: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: BorderSide(
-          color: Colors.white,
-          width: 1.0,
-          style: BorderStyle.solid,
-        ),
-      )),
-      child: Text(
-        "Interests",
-        style: TextStyle(fontSize: 30, color: Colors.white),
-        textAlign: TextAlign.center,
-      ),
     );
   }
 
