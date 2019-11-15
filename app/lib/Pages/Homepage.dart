@@ -1,6 +1,7 @@
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Pages/InterestsPage.dart';
 import 'package:app/Pages/Profilepage.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
+      bottomNavigationBar: Footer(color: teal),
     );
   }
 
@@ -62,24 +63,6 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 32.0),
       width: 150,
       child: Image.asset('assets/images/NameLogo.png',
-      ),
-    );
-  }
-
-  Widget getFooter(){
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-          color: teal,
-          // gradient: new LinearGradient(
-          //   colors: [purpleButton, teal],
-          //   stops: [0.0, 1.0],
-          //   begin: Alignment.centerLeft,
-          //   end: Alignment.centerRight
-          // ),
-      ),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),
       ),
     );
   }

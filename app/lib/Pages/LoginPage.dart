@@ -1,4 +1,5 @@
 import 'package:app/Pages/Profilepage.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
@@ -21,7 +22,7 @@ class LoginPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
+      bottomNavigationBar: Footer(color: teal),
     );
   }
 
@@ -69,6 +70,7 @@ class LoginPage extends StatelessWidget {
       width: 300,
       margin: EdgeInsets.only(bottom: 5),
       child: TextField(
+        obscureText: field == 'password' ? true : false,
         textAlign: TextAlign.center,
         style: TextStyle(color: purpleButton),
         decoration: InputDecoration(
@@ -81,24 +83,6 @@ class LoginPage extends StatelessWidget {
             borderSide: BorderSide(color: teal),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget getFooter(){
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        color: teal,
-        // gradient: new LinearGradient(
-        //   colors: [purpleButton, teal],
-        //   stops: [0.0, 1.0],
-        //   begin: Alignment.centerLeft,
-        //   end: Alignment.centerRight
-        // ),
-      ),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),
       ),
     );
   }

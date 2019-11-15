@@ -1,5 +1,6 @@
 import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _InterestsPageState extends State<InterestsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
+      bottomNavigationBar: Footer(color: purpleButton),
     );
   }
 
@@ -52,18 +53,6 @@ class _InterestsPageState extends State<InterestsPage> {
         "Interests",
         style: TextStyle(fontSize: 30, color: Colors.white),
         textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget getFooter() {
-    return Container(
-      height: 40,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(color: purpleButton),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019",
-            style: TextStyle(fontSize: 14, color: Colors.white)),
       ),
     );
   }

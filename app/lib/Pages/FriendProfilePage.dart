@@ -1,4 +1,4 @@
-import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/PageHeader.dart';
@@ -33,7 +33,7 @@ class FriendProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
+      bottomNavigationBar: Footer(color: bluePage),
     );
   }
 
@@ -58,19 +58,6 @@ class FriendProfilePage extends StatelessWidget {
       child: Center(
         child: Image.asset('assets/images/IconWhite.png',
         ),
-      ),
-    );
-  }
-
-  Widget getFooter(){
-    return Container(
-      height: 40,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          color: bluePage
-      ),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),
       ),
     );
   }
