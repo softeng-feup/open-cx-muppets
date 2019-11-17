@@ -115,9 +115,11 @@ class _ContactsPageState extends State<ContactsPage> {
     return RawMaterialButton(
       onPressed: () {
         createAlertDialog(this.context).then((input) {
-          setState(() {
-            this.contactList.add(input);
-          });
+          if (input != null) {
+            setState(() {
+              this.contactList.add(input);
+            });
+          }
         });
       },
       child: new Icon(
