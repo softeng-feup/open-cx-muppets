@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             getIcon(),
             getLogo(),
+            getButton("Connect", context, null /*ConnectionPage()*/),
             getButton("Profile", context, ProfilePage()),
             getButton("Friends", context, FriendsPage()),
             getButton("Interests", context, InterestsPage()),
