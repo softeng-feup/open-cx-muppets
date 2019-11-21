@@ -1,5 +1,3 @@
-import 'package:app/Animations/FadeRoute.dart';
-import 'package:app/Pages/Profilepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';

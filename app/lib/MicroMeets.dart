@@ -1,8 +1,3 @@
-import 'package:app/Pages/ContactsPage.dart';
-import 'package:app/Pages/FriendProfilePage.dart';
-import 'package:app/Pages/FriendsPage.dart';
-import 'package:app/Pages/InterestsPage.dart';
-import 'package:app/Pages/Profilepage.dart';
 import 'package:app/Pages/LoginPage.dart';
 import 'package:app/Pages/LogoPage.dart';
 import 'package:app/Pages/Homepage.dart';

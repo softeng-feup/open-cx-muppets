@@ -1,6 +1,7 @@
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Pages/InterestsPage.dart';
-import 'package:app/Pages/Profilepage.dart';
+import 'package:app/Pages/ProfilePage.dart';
+import 'package:app/Pages/ConnectPage.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             getIcon(),
             getLogo(),
-            getButton("Connect", context, null /*ConnectionPage()*/),
+            getButton("Connect", context, ConnectPage()),
             getButton("Profile", context, ProfilePage()),
             getButton("Friends", context, FriendsPage()),
             getButton("Interests", context, InterestsPage()),
