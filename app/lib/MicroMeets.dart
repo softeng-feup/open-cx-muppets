@@ -1,4 +1,4 @@
-import 'package:app/Pages/LoginPage.dart';
+import 'package:app/Pages/GetStartedPages.dart';
 import 'package:app/Pages/LogoPage.dart';
 import 'package:app/Pages/Homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,14 +11,13 @@ class MicroMeets extends StatefulWidget {
 
 class _MicroMeetsState extends State<MicroMeets> {
   bool _loading = true;
-  bool _firstRun;
+  bool _showTutorial;
 
   Future<bool> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    final isFirstRun = prefs.getBool('first_run') ?? true;
-    await prefs.setBool('first_run', false);
+    final showTut = prefs.getBool('show_tutorial') ?? true;
 
-    return isFirstRun;
+    return showTut;
   }
 
   @override
@@ -30,9 +29,9 @@ class _MicroMeetsState extends State<MicroMeets> {
       () => _loadPreferences(),
     );
 
-    preferencesFuture.then((isFirstRun) {
+    preferencesFuture.then((showTut) {
       setState(() {
-        _firstRun = isFirstRun;
+        _showTutorial = showTut;
         _loading = false;
       });
     });
@@ -54,7 +53,7 @@ class _MicroMeetsState extends State<MicroMeets> {
         theme: ThemeData(
           fontFamily: 'Roboto',
         ),
-        home: (_firstRun ? LoginPage() : HomePage()),
+        home: (_showTutorial ? GetStartedPage(skipable: true) : HomePage()),
       );
     }
   }

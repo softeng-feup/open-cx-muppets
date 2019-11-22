@@ -1,5 +1,6 @@
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
+import 'package:app/Widgets/Logo.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
@@ -33,21 +34,12 @@ class _ConnectPageState extends State<ConnectPage> {
     );
   }
 
-  Widget getLogo() {
-    return Container(
-      width: 120,
-      child: Image.asset(
-        'assets/images/NameLogoWhite.png',
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: bluePage,
-        title: getLogo(),
+        title: Logo(width: 120),
         centerTitle: true,
         actions: <Widget>[
           Switch(

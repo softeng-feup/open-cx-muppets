@@ -1,5 +1,6 @@
 import 'package:app/Widgets/FieldBox.dart';
 import 'package:app/Widgets/Footer.dart';
+import 'package:app/Widgets/Logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
@@ -14,7 +15,10 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             getIcon(),
-            getLogo(),
+            BlackLogo(
+              padding: EdgeInsets.only(bottom: 32.0),
+              width: 150,
+            ),
             FieldBox(
               fieldName: 'username',
               textColor: purpleButton,
@@ -68,16 +72,6 @@ class LoginPage extends StatelessWidget {
       width: 250,
       child: Image.asset(
         'assets/images/IconOriginal.png',
-      ),
-    );
-  }
-
-  Widget getLogo() {
-    return Container(
-      padding: EdgeInsets.only(bottom: 32.0),
-      width: 150,
-      child: Image.asset(
-        'assets/images/NameLogo.png',
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/Logo.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget implements PreferredSizeWidget {
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -29,19 +29,10 @@ class PageHeader extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.of(context).pop();
               },
             ),
-            getLogo(),
+            Logo(width: 120),
             Icon(Icons.arrow_back_ios, color: Colors.transparent),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget getLogo() {
-    return Container(
-      width: 120,
-      child: Image.asset(
-        'assets/images/NameLogoWhite.png',
       ),
     );
   }
