@@ -16,10 +16,14 @@ class MMDatabase {
   }
 
   MMDatabase._internal() {
-    _loadPath();
-    _deleteDb();
-    _initDb();
-    _populateDb();
+    _setupDb();
+  }
+
+  void _setupDb() async {
+    await _loadPath();
+    //await _deleteDb();
+    await _initDb();
+    await _populateDb();
   }
 
   Future<void> _loadPath() async {
@@ -100,5 +104,36 @@ class MMDatabase {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     });
+  }
+
+  Future<User> getUser(int id) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('users', where: 'id = ?', whereArgs: [id]);
+    
+    var userContacts = map[0]['contacts'];
+    var userInterests = map[0]['interests'];
+
+    return User(
+      id: map[0]['id'],
+      name: map[0]['name'],
+      nationality: map[0]['nationality'],
+      occupation: map[0]['occupation'],
+      company: map[0]['company'],
+      languages: map[0]['languages'],
+      contacts: userContacts.split(','),
+      interests: userInterests.split(','),
+    );
+  }
+
+  Future<List<User>> getRangeOfUsers(List<int> ids) async {
+    List<User> users = <User>[];
+
+    ids.forEach((id) async {
+      var user = await getUser(id);
+
+      users.add(user);
+    });
+
+    return users;
   }
 }

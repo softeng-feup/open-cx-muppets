@@ -1,7 +1,10 @@
+import 'dart:math';
+
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logo.dart';
-import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
 class ConnectPage extends StatefulWidget {
@@ -10,27 +13,49 @@ class ConnectPage extends StatefulWidget {
 }
 
 class _ConnectPageState extends State<ConnectPage> {
-  final _connections = <String>[];
-  final _db = new StringDB();
+  List<User> _connections = <User>[];
+  final _db = MMDatabase();
   static bool _active = false;
 
   Widget _buildConnections() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _connections.length) {
-            _connections.addAll(_db.getDevices(3)); /*4*/
-          }
-          return _buildRow(_connections[index]);
-        });
+    return FutureBuilder(
+      builder: (context, futureSnap) {
+        if (futureSnap.connectionState == ConnectionState.done &&
+            futureSnap.hasData != null) {
+          return ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: futureSnap.data.length,
+              itemBuilder: (context, i) {
+                _connections = futureSnap.data;
+                return _buildRow(_connections[i]);
+              });
+        }
+        return Container();
+      },
+      future: _db.getRangeOfUsers(pollMicrobit(2)),
+    );
   }
 
-  Widget _buildRow(String device) {
-    return ListTile(
-      title: Text(device),
+  Widget _buildRow(User user) {
+    return ExpansionTile(
+      leading: CircleAvatar(child: Image.asset('assets/images/IconWhite.png'),
+      radius: 25.0,),
+      title: Text(user.name),
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              child: Text('Interests: '),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              child: Text(user.interests.toString()),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -66,26 +91,18 @@ class _ConnectPageState extends State<ConnectPage> {
   }
 }
 
-class StringDB {
-  final List<String> _devices;
+List<int> pollMicrobit(int numElements) {
+  List<int> result = <int>[];
+  Random random = Random(TimeOfDay.now().minute);
 
-  StringDB()
-      : this._devices = [
-          'ZeTo',
-          'Cajo',
-          'Gaspar',
-          'Vitor',
-          'Sofes',
-          'Cenas',
-          'Jorge',
-          'Ventuzelos',
-          'Lajes',
-          'Pinheiro',
-          'Gaspaccio'
-        ];
+  while (numElements != 0) {
+    int index = random.nextInt(3) + 1;
 
-  List<String> getDevices(int numDevices) {
-    return List<String>.generate(
-        numDevices, (int index) => this._devices[index]);
+    if (result.indexOf(index) == -1) {
+      result.add(index);
+      numElements--;
+    }
   }
+
+  return result;
 }
