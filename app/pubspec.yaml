@@ -25,6 +25,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   # The following adds the capability of saving preferences between app sessions.
   shared_preferences: ^0.5.4+3
+  # The following adds sqlite api for database manipulation
+  sqflite: ^1.1.7+2
+  path: ^1.6.4
 
 dev_dependencies:
   flutter_test:
