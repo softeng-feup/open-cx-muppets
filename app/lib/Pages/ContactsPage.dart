@@ -1,7 +1,7 @@
-import 'package:app/Animations/FadeRoute.dart';
-import 'package:app/Pages/Profilepage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
+import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -13,17 +13,19 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
+  List<String> contactList = List<String>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: ProfilePage()),
+      appBar: PageHeader(),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(
           children: <Widget>[
             Column(
               children: <Widget>[
-                getTitle(),
+                PageTitle(title: 'Contacts'),
                 getContacts(),
                 addContact()
               ],
@@ -31,52 +33,16 @@ class _ContactsPageState extends State<ContactsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
-    );
-  }
-
-  Container getTitle() {
-    return Container(
-      width: 200,
-      padding: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white,
-              width: 1.0,
-              style: BorderStyle.solid,
-            ),
-          )
-      ),
-      child: Text("Contacts", style: TextStyle(fontSize: 30, color: Colors.white), textAlign: TextAlign.center,),
-    );
-  }
-
-  Widget getFooter(){
-    return Container(
-      height: 40,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          color: purpleButton
-      ),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),
-      ),
+      bottomNavigationBar: Footer(color: purpleButton),
     );
   }
 
   Widget getContacts() {
     //ir buscar à database
-    List<String> contact_list = List<String>();
-
-    contact_list.add("351 82937 9123");
-    contact_list.add("mock_email@gmail.com");
-    contact_list.add("verylongemail123456789@gmail.com");
-
     List<Widget> rows = List<Widget>();
 
-    for(int i = 0; i < contact_list.length; i++){
-      rows.add(createContactRow(contact_list[i]));
+    for (int i = 0; i < this.contactList.length; i++) {
+      rows.add(createContactRow(this.contactList[i]));
     }
 
     return Container(
@@ -89,26 +55,71 @@ class _ContactsPageState extends State<ContactsPage> {
 
   Widget createContactRow(String contact) {
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      padding: EdgeInsets.all(12.0),
-      width: 300,
-      decoration: BoxDecoration(
-        color: purpleButton,
-          borderRadius: BorderRadius.circular(25.0)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(contact, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
-          Icon(Icons.clear, color: Colors.white,),
-        ],
-      )
-    );
+        margin: EdgeInsets.only(top: 10, bottom: 10),
+        padding: EdgeInsets.all(12.0),
+        width: 300,
+        decoration: BoxDecoration(
+            color: purpleButton, borderRadius: BorderRadius.circular(25.0)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              child: Text(
+                contact,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  this.contactList.remove(contact);
+                });
+              },
+            ),
+          ],
+        ));
   }
 
-  Widget addContact(){
+  Future<String> createAlertDialog(BuildContext context) {
+    TextEditingController _controller = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Add Interest:'),
+            content: TextField(
+              autofocus: true,
+              controller: _controller,
+            ),
+            actions: <Widget>[
+              RawMaterialButton(
+                child: Text("Add"),
+                onPressed: () {
+                  Navigator.of(context).pop(_controller.text);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  Widget addContact() {
     return RawMaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        createAlertDialog(this.context).then((input) {
+          if (input != null) {
+            setState(() {
+              this.contactList.add(input);
+            });
+          }
+        });
+      },
       child: new Icon(
         Icons.add,
         color: teal,

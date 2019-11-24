@@ -1,6 +1,8 @@
 import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
+import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 
 class InterestsPage extends StatefulWidget {
@@ -17,14 +19,14 @@ class _InterestsPageState extends State<InterestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: HomePage()),
+      appBar: PageHeader(),
       backgroundColor: bluePage,
       body: Center(
         child: ListView(
           children: <Widget>[
             Column(
               children: <Widget>[
-                getTitle(),
+                PageTitle(title: 'Interests'),
                 getInterests(),
                 getInterestsButton()
               ],
@@ -32,39 +34,7 @@ class _InterestsPageState extends State<InterestsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
-    );
-  }
-
-  Widget getTitle() {
-    return Container(
-      width: 200,
-      padding: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: BorderSide(
-          color: Colors.white,
-          width: 1.0,
-          style: BorderStyle.solid,
-        ),
-      )),
-      child: Text(
-        "Interests",
-        style: TextStyle(fontSize: 30, color: Colors.white),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget getFooter() {
-    return Container(
-      height: 40,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(color: purpleButton),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019",
-            style: TextStyle(fontSize: 14, color: Colors.white)),
-      ),
+      bottomNavigationBar: Footer(color: purpleButton),
     );
   }
 
@@ -142,9 +112,11 @@ class _InterestsPageState extends State<InterestsPage> {
     return RawMaterialButton(
       onPressed: () {
         createAlertDialog(this.context).then((input) {
-          setState(() {
-            this.contactList.add(input);
-          });
+          if (input != null) {
+            setState(() {
+              this.contactList.add(input);
+            });
+          }
         });
       },
       child: new Icon(

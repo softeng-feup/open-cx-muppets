@@ -1,6 +1,7 @@
-import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Widgets/Footer.dart';
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Theme.dart';
+import 'package:app/Widgets/FriendTitle.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
@@ -14,14 +15,14 @@ class FriendProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(destinationPage: FriendsPage()),
+      appBar: PageHeader(),
       backgroundColor: Colors.white,
       body: Center(
         child: ListView(
           children: <Widget>[
             Column(
               children: <Widget>[
-                getTitle(),
+                FriendTitle(name: name.toString(), color: bluePage),
                 getProfilePicture(),
                 Row(children: <Widget>[
                   getInfo(),
@@ -33,15 +34,7 @@ class FriendProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(),
-    );
-  }
-
-  Container getTitle() {
-    return Container(
-      width: 200,
-      padding: EdgeInsets.only(top: 20),
-      child: Text("$name", style: TextStyle(fontSize: 30, color: bluePage), textAlign: TextAlign.center,),
+      bottomNavigationBar: Footer(color: bluePage),
     );
   }
 
@@ -58,19 +51,6 @@ class FriendProfilePage extends StatelessWidget {
       child: Center(
         child: Image.asset('assets/images/IconWhite.png',
         ),
-      ),
-    );
-  }
-
-  Widget getFooter(){
-    return Container(
-      height: 40,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          color: bluePage
-      ),
-      child: Center(
-        child: Text("©OpenCX-Muppets 2019", style: TextStyle(fontSize: 14, color: Colors.white)),
       ),
     );
   }
