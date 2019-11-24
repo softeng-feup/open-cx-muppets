@@ -5,6 +5,7 @@ import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetStartedPage extends StatelessWidget {
@@ -27,11 +28,11 @@ class GetStartedPage extends StatelessWidget {
         children: skipable
             ? <Widget>[
                 _SkipablePage1(),
-                _Page2(),
+                _TutorialsPage(),
               ]
             : <Widget>[
                 _Page1(),
-                _Page2(),
+                _TutorialsPage(),
               ],
       ),
       bottomNavigationBar: Footer(color: purpleButton),
@@ -156,24 +157,149 @@ class _Page1 extends StatelessWidget {
   }
 }
 
-class _Page2 extends StatelessWidget {
+class _TutorialsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'This is another page',
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'This short tutorial will help you get started with the app and start connecting with others',
-          )
-        ],
+      padding: const EdgeInsets.symmetric(
+        vertical: 50.0,
+        horizontal: 20.0,
+      ),
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text('Micro:Meets tutorials'),
+            RaisedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  FadeRoute(page: _ConnectMicrobitPage()),
+                );
+              },
+              color: purpleButton,
+              child: Text(
+                '1. How to connect to your Micro:bit device',
+                style: TextStyle(fontSize: 15.0, color: Colors.white),
+              ),
+              padding: EdgeInsets.all(12),
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+              ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  FadeRoute(page: _ConnectMicrobitPage()),
+                );
+              },
+              color: purpleButton,
+              child: Text(
+                '2. How new connections work',
+                style: TextStyle(fontSize: 15.0, color: Colors.white),
+              ),
+              padding: EdgeInsets.all(12),
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+class _ConnectMicrobitPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Logo(width: 120),
+        centerTitle: true,
+        backgroundColor: bluePage,
+      ),
+      body: Container(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Follow these steps to connect to your Micro:bit device',
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: SizedBox.expand(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                     _buildEnterPairingModeTile(),
+                     _buildGetMicrobitNameTile(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: Footer(color: purpleButton),
+    );
+  }
+}
+
+Widget _buildEnterPairingModeTile() {
+  return ExpansionTile(
+    title: Text( 
+      '1. Enter Pairing Mode on your Micro:bit device',
+      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+    ),
+    children: <Widget>[
+      ListTile (
+        title: Text(
+          'Hold down A and B buttons',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal),
+        ),
+        subtitle: Image.asset('assets/images/microbit-A&B-buttons.png', width: 300, height: 150,),
+      ),
+      ListTile(
+        title: Text(
+          'While holding A and B, press the RESET button',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)
+        ),
+        subtitle: Image.asset('assets/images/microbit-reset-button.png', width: 300, height: 150,),
+      ),
+      ListTile(
+        title: Text(
+          'While still holding A and B, wait until the screen is filled',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)
+        ),
+        subtitle: Image.asset('assets/images/microbit-filled-screen.png', width: 300, height: 150,),
+      ),
+    ],
+  );
+}
+
+
+
+Widget _buildGetMicrobitNameTile() {
+    return ExpansionTile(
+      title: Text(
+        '2. Get your Micro:bit name',
+        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+      ),
+      children: <Widget>[
+        ListTile(
+          title: Text(
+            'Your companion device has a name!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.normal)
+          ),
+          subtitle: Image.asset('assets/images/microbit-device-name.png', width: 300, height: 500,),
+        )
+      ],
+    );
+  }
