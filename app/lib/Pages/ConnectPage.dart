@@ -6,13 +6,72 @@ import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
-class ConnectPage extends StatefulWidget {
+class ConnectPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<BluetoothState>(
+      stream: FlutterBlue.instance.state,
+      initialData: BluetoothState.unknown,
+      builder: (c, snapshot) {
+        final state = snapshot.data;
+        if (state == BluetoothState.on) {
+          return ConnectionsPage();
+        }
+          return BluetoothOffScreen(state: state);
+        }
+    );
+  }
+}
+
+class BluetoothOffScreen extends StatelessWidget {
+  const BluetoothOffScreen({Key key, this.state}) : super(key: key);
+
+  final BluetoothState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: bluePage,
+        title: Logo(width: 120),
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.bluetooth_disabled,
+              size: 200.0,
+              color: Colors.blue,
+            ),
+            Text(
+              'Bluetooth Adapter is ${state.toString().substring(15)}.',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .subhead
+                  .copyWith(color: Colors.black),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Footer(color: teal),
+    );
+  }
+}
+
+class ConnectionsPage extends StatefulWidget {
+
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
 
-class _ConnectPageState extends State<ConnectPage> {
+class _ConnectPageState extends State<ConnectionsPage> {
   List<User> _connections = <User>[];
   final _db = MMDatabase();
   static bool _active = false;
