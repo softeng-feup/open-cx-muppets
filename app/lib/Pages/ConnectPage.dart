@@ -7,6 +7,7 @@ import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:app/MicroBit.dart';
 
 class ConnectPage extends StatelessWidget {
 
@@ -67,6 +68,8 @@ class BluetoothOffScreen extends StatelessWidget {
 
 class ConnectionsPage extends StatefulWidget {
 
+  static MicroBit microbit;
+
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
@@ -92,6 +95,40 @@ class _ConnectPageState extends State<ConnectionsPage> {
         return Container();
       },
       future: _db.getRangeOfUsers(pollMicrobit(2)),
+    );
+  }
+
+  Future<Widget> _buildNotConnected(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Micro:bit Device not connected',
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Description',
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) {
+                    return;
+                  })),
+              child: Text(
+                'Text',
+              ),
+            ),
+          ],
+        );
+      }
     );
   }
 
