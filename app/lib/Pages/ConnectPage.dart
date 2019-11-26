@@ -10,7 +10,6 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicroBit.dart';
 
 class ConnectPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<BluetoothState>(
@@ -21,8 +20,8 @@ class ConnectPage extends StatelessWidget {
         if (state == BluetoothState.on) {
           return ConnectionsPage();
         }
-          return BluetoothOffScreen(state: state);
-        }
+        return BluetoothOffScreen(state: state);
+      },
     );
   }
 }
@@ -67,7 +66,6 @@ class BluetoothOffScreen extends StatelessWidget {
 }
 
 class ConnectionsPage extends StatefulWidget {
-
   static MicroBit microbit;
 
   @override
@@ -120,22 +118,24 @@ class _ConnectPageState extends State<ConnectionsPage> {
             FlatButton(
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) {
-                    return;
-                  })),
+                return;
+              })),
               child: Text(
                 'Text',
               ),
             ),
           ],
         );
-      }
+      },
     );
   }
 
   Widget _buildRow(User user) {
     return ExpansionTile(
-      leading: CircleAvatar(child: Image.asset('assets/images/IconWhite.png'),
-      radius: 25.0,),
+      leading: CircleAvatar(
+        child: Image.asset('assets/images/IconWhite.png'),
+        radius: 25.0,
+      ),
       title: Text(user.name),
       children: <Widget>[
         Row(
@@ -155,6 +155,20 @@ class _ConnectPageState extends State<ConnectionsPage> {
     );
   }
 
+  Widget _buildBluetoothOn() {
+    if (_active) return _buildConnections();
+
+    return Center(
+      child: Text(
+        'Connections disabled',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 25.0,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,17 +185,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
               }),
         ],
       ),
-      body: _active
-          ? _buildConnections()
-          : Center(
-              child: Text(
-                'Connections disabled',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 25.0,
-                ),
-              ),
-            ),
+      body: _buildBluetoothOn(),
       bottomNavigationBar: Footer(color: teal),
     );
   }
