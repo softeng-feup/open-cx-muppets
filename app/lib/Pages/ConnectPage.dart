@@ -21,7 +21,7 @@ class ConnectPage extends StatelessWidget {
         if (state == BluetoothState.on) {
           return ConnectionsPage();
         }
-          return BluetoothOffScreen(state: state);
+        return BluetoothOffScreen(state: state);
         }
     );
   }
@@ -68,16 +68,15 @@ class BluetoothOffScreen extends StatelessWidget {
 
 class ConnectionsPage extends StatefulWidget {
 
-  static MicroBit microbit;
-
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
 
 class _ConnectPageState extends State<ConnectionsPage> {
+  static MicroBit microbit = new MicroBit();
+  static bool _active = false;
   List<User> _connections = <User>[];
   final _db = MMDatabase();
-  static bool _active = false;
 
   Widget _buildConnections() {
     return FutureBuilder(
@@ -107,26 +106,6 @@ class _ConnectPageState extends State<ConnectionsPage> {
           title: Text(
             'Micro:bit Device not connected',
           ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  'Description',
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) {
-                    return;
-                  })),
-              child: Text(
-                'Text',
-              ),
-            ),
-          ],
         );
       }
     );
