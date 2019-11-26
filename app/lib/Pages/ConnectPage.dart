@@ -66,16 +66,16 @@ class BluetoothOffScreen extends StatelessWidget {
 }
 
 class ConnectionsPage extends StatefulWidget {
-  static MicroBit microbit;
 
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
 
 class _ConnectPageState extends State<ConnectionsPage> {
+  static MicroBit microbit = new MicroBit();
+  static bool _active = false;
   List<User> _connections = <User>[];
   final _db = MMDatabase();
-  static bool _active = false;
 
   Widget _buildConnections() {
     return FutureBuilder(
