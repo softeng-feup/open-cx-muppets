@@ -4,7 +4,7 @@ import 'package:app/Database/Database.dart';
 import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
-import 'package:app/Widgets/Logo.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicroBit.dart';
@@ -42,10 +42,8 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   Widget _buildRow(User user) {
     return ExpansionTile(
-      leading: CircleAvatar(
-        child: Image.asset('assets/images/IconWhite.png'),
-        radius: 25.0,
-      ),
+      leading: CircleAvatar(child: WhiteIconLogo(),
+      radius: 25.0,),
       title: Text(user.name),
       children: <Widget>[
         Row(

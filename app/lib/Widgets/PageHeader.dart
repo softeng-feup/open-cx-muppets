@@ -1,5 +1,5 @@
 import 'package:app/Theme.dart';
-import 'package:app/Widgets/Logo.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget implements PreferredSizeWidget {

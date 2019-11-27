@@ -25,8 +25,8 @@ class _MicroMeetsState extends State<MicroMeets> {
     super.initState();
 
     final Future<bool> preferencesFuture = Future.delayed(
-      Duration(seconds: 3),
-      () => _loadPreferences(),
+      Duration(microseconds: 5500000),
+          () => _loadPreferences(),
     );
 
     preferencesFuture.then((showTut) {

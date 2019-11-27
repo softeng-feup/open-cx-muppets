@@ -1,10 +1,10 @@
 import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Pages/GetStartedPages.dart';
 import 'package:app/Pages/InterestsPage.dart';
-import 'package:app/Pages/ProfilePage.dart';
+import 'package:app/Pages/Profile.dart';
 import 'package:app/Pages/ConnectPage.dart';
 import 'package:app/Widgets/Footer.dart';
-import 'package:app/Widgets/Logo.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
@@ -18,9 +18,12 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            getIcon(),
+            Container(
+              padding: EdgeInsets.only(top: 100),
+              child: getIcon(),
+            ),
             BlackLogo(
-              padding: EdgeInsets.only(bottom: 32.0),
+              padding: EdgeInsets.only(bottom: 50.0),
               width: 150,
             ),
             getButton("Connect", context, ConnectionsPage()),
@@ -37,7 +40,7 @@ class HomePage extends StatelessWidget {
 
   Widget getButton(String option, BuildContext context, Widget destinationPage) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 10),
       width: 250,
       child: RaisedButton(
         //If destinationPage is null it does nothing; otherwise it transitions to the page
@@ -63,9 +66,7 @@ class HomePage extends StatelessWidget {
   Widget getIcon() {
     return Container(
       width: 250,
-      child: Image.asset(
-        'assets/images/IconOriginal.png',
-      ),
+      child: IconLogo()
     );
   }
 }

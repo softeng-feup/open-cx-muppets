@@ -1,6 +1,6 @@
 import 'package:app/Widgets/FieldBox.dart';
 import 'package:app/Widgets/Footer.dart';
-import 'package:app/Widgets/Logo.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Animations/FadeRoute.dart';
@@ -70,9 +70,7 @@ class LoginPage extends StatelessWidget {
   Widget getIcon() {
     return Container(
       width: 250,
-      child: Image.asset(
-        'assets/images/IconOriginal.png',
-      ),
+      child: IconLogo()
     );
   }
 }
