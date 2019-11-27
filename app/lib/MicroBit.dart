@@ -5,7 +5,7 @@ class MicroBit {
   static const String UARTserviceUUID = '6E400001B5A3F393E0A9E50E24DCCA9E';
   static const String TXcharacteristicUUID = '6E400002B5A3F393E0A9E50E24DCCA9E';
   static const String RXcharacteristicUUID = '6E400003B5A3F393E0A9E50E24DCCA9E';
-  static const int scanDuration = 10;
+  static const int scanDuration = 3;
 
   FlutterBlue flutterBlue;
   BluetoothDevice microbit;
@@ -28,8 +28,10 @@ class MicroBit {
     flutterBlue.scanResults.listen((scanResult) {
       
      for(ScanResult result in scanResult) {
+
         if( _checkDeviceName(result.device.name, deviceName)) {
-          return _connectDevice(result.device);
+          if (!this.connected)
+           _connectDevice(result.device);
         }
      }
     
@@ -37,7 +39,7 @@ class MicroBit {
 
     // Stop scanning  
     flutterBlue.stopScan();
-    return false;
+    return this.connected;
   }
 
   bool _checkDeviceName(String deviceName, String expectedName ) {

@@ -154,7 +154,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
                           setState(() => _active = value);
                           if (value)
                             _microbitDialog(context).then((name) {
-                              //TODO: connect to microbit
+                              microbit.connect(name);
                             });
                         }),
             ],
