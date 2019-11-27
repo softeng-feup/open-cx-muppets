@@ -4,7 +4,7 @@ import 'package:app/Database/Database.dart';
 import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
-import 'package:app/Widgets/Logo.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/material.dart';
 
 class ConnectPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _ConnectPageState extends State<ConnectPage> {
 
   Widget _buildRow(User user) {
     return ExpansionTile(
-      leading: CircleAvatar(child: Image.asset('assets/images/IconWhite.png'),
+      leading: CircleAvatar(child: WhiteIconLogo(),
       radius: 25.0,),
       title: Text(user.name),
       children: <Widget>[

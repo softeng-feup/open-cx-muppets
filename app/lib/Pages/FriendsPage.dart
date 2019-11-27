@@ -3,6 +3,7 @@ import 'package:app/Pages/FriendProfilePage.dart';
 import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
@@ -96,10 +97,7 @@ class _FriendsPageState extends State<FriendsPage> {
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.circular(18.0),
       ),
-      child: Center(
-        child: Image.asset('assets/images/IconWhite.png',
-        ),
-      ),
+      child: WhiteIconLogo()
     );
   }
 }

@@ -21,6 +21,11 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: widget.duration),
     );
+    _controller.addStatusListener((status) {
+      if(status == AnimationStatus.completed) {
+        _controller.reverse();
+      }
+    });
     _animation = Tween(
       begin: 0.0,
       end: 1.0,

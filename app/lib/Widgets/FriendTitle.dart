@@ -10,7 +10,7 @@ class FriendTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 200,
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 30),
       child: Text(
         name,
         style: TextStyle(fontSize: 30, color: color),

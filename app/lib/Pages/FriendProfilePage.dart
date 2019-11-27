@@ -1,7 +1,7 @@
 import 'package:app/Widgets/Footer.dart';
-import 'package:app/Pages/FriendsPage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/FriendTitle.dart';
+import 'package:app/Widgets/Logos.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:flutter/material.dart';
 
@@ -48,10 +48,7 @@ class FriendProfilePage extends StatelessWidget {
         color: bluePage,
         borderRadius: new BorderRadius.circular(18.0),
       ),
-      child: Center(
-        child: Image.asset('assets/images/IconWhite.png',
-        ),
-      ),
+      child: WhiteIconLogo(),
     );
   }
 
@@ -66,32 +63,18 @@ class FriendProfilePage extends StatelessWidget {
     String enterprise = "CGI Enterprise";
     result.add(Text("$enterprise", style: TextStyle(color: Colors.white),));
     
-    //get friend's languages
-    List<String> languages = new List<String>();
-
-    result.add(Text("Languages",style: TextStyle(fontSize: 8.0, color: Colors.white),));
-    
-    languages.add("Portuguese");
-    languages.add("English");
-    languages.add("Mandarin");
-
-    for(int i = 0; i < languages.length; i++){
-      String language = languages[i];
-
-      result.add(Text("$language", style: TextStyle(color: Colors.white),));
-    }
-    
     return Expanded(
         child:Container(
-      padding: EdgeInsets.all(12.0),
-      margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 12.0, right: 6.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18.0),
-        color: purpleButton
-      ),
-      child: Column(
-        children: result
-      ),
+          height: 250,
+          padding: EdgeInsets.all(12.0),
+          margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 12.0, right: 6.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18.0),
+              color: purpleButton
+            ),
+          child: Column(
+            children: result
+          ),
         )
     );
   }
@@ -102,7 +85,7 @@ class FriendProfilePage extends StatelessWidget {
     //get friend's contacts
     List<String> contacts = new List<String>();
 
-    result.add(Text("Contacts", style: TextStyle(fontSize: 8.0, color: Colors.white),));
+    result.add(Text("Contacts", style: TextStyle(fontSize: 10.0, color: Colors.white),));
 
     contacts.add("163478234");
     contacts.add("Asdfsdgffdsf@gmainf.com");
@@ -116,15 +99,16 @@ class FriendProfilePage extends StatelessWidget {
 
     return Expanded(
       child:Container(
-      padding: EdgeInsets.all(12.0),
-      margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 6.0, right: 12.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18.0),
-          color: teal
-      ),
-      child: Column(
-          children: result
-      ),
+        height: 250,
+        padding: EdgeInsets.all(12.0),
+        margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 6.0, right: 12.0),
+        decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18.0),
+              color: teal
+          ),
+        child: Column(
+            children: result
+        ),
       )
     );
   }

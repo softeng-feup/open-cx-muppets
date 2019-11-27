@@ -6,6 +6,7 @@ import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
 import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
+import 'package:app/Widgets/Logos.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);
@@ -56,13 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   enabledBorderColor: purpleButton,
                   focusedBorderColor: Colors.white,
                 ),
-                FieldBox(
-                  fieldName: 'languages',
-                  textColor: Colors.white,
-                  labelTextColor: Colors.white,
-                  enabledBorderColor: purpleButton,
-                  focusedBorderColor: Colors.white,
-                ),
                 contactsButton(ContactsPage())
               ],
             )
@@ -84,9 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: new BorderRadius.circular(18.0),
       ),
       child: Center(
-        child: Image.asset(
-          'assets/images/IconWhite.png',
-        ),
+          child: WhiteIconLogo()
       ),
     );
   }
