@@ -6,16 +6,20 @@ import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:app/MicroBit.dart';
 
-class ConnectPage extends StatefulWidget {
+class ConnectionsPage extends StatefulWidget {
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
 
-class _ConnectPageState extends State<ConnectPage> {
+class _ConnectPageState extends State<ConnectionsPage> {
+  static MicroBit microbit = new MicroBit();
+  static bool _active = false;
+  BluetoothState _bluetoothState;
   List<User> _connections = <User>[];
   final _db = MMDatabase();
-  static bool _active = false;
 
   Widget _buildConnections() {
     return FutureBuilder(
@@ -59,34 +63,106 @@ class _ConnectPageState extends State<ConnectPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: bluePage,
-        title: Logo(width: 120),
-        centerTitle: true,
-        actions: <Widget>[
-          Switch(
-              value: _active,
-              activeColor: teal,
-              onChanged: (bool) {
-                setState(() => _active = bool);
-              }),
+  Widget _buildBluetoothOn() {
+    if (_active) return _buildConnections();
+
+    return Center(
+      child: Text(
+        'Connections disabled',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 25.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBluetoothOff() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(
+            Icons.bluetooth_disabled,
+            size: 200.0,
+            color: Colors.blue,
+          ),
+          Text(
+            'Bluetooth Adapter is ${_bluetoothState.toString().substring(15)}.',
+            style: Theme.of(context)
+                .primaryTextTheme
+                .subhead
+                .copyWith(color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
-      body: _active
-          ? _buildConnections()
-          : Center(
-              child: Text(
-                'Connections disabled',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 25.0,
-                ),
-              ),
+    );
+  }
+
+  Future<String> _microbitDialog(BuildContext context) {
+    if (!microbit.isConnnected() && _bluetoothState == BluetoothState.on) {
+      TextEditingController _controller = TextEditingController();
+
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Insert your Micro:Bit name'),
+            content: TextField(
+              autofocus: true,
+              controller: _controller,
             ),
-      bottomNavigationBar: Footer(color: teal),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(_controller.text.toLowerCase());
+                },
+                child: Text('Connect'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    return Future.value(null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<BluetoothState>(
+      stream: FlutterBlue.instance.state,
+      initialData: BluetoothState.unknown,
+      builder: (c, snapshot) {
+        _bluetoothState = snapshot.data;
+        if (_bluetoothState == BluetoothState.off) _active = false;
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: bluePage,
+            title: Logo(width: 120),
+            centerTitle: true,
+            actions: <Widget>[
+              Switch(
+                  value: _active,
+                  activeColor: teal,
+                  onChanged: (_bluetoothState == BluetoothState.off)
+                      ? null
+                      : (value) {
+                          setState(() => _active = value);
+                          if (value)
+                            _microbitDialog(context).then((name) {
+                              //TODO: connect to microbit
+                            });
+                        }),
+            ],
+          ),
+          body: (_bluetoothState == BluetoothState.on)
+              ? _buildBluetoothOn()
+              : _buildBluetoothOff(),
+          bottomNavigationBar: Footer(color: teal),
+        );
+      },
     );
   }
 }
