@@ -42,8 +42,10 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   Widget _buildRow(User user) {
     return ExpansionTile(
-      leading: CircleAvatar(child: WhiteIconLogo(),
-      radius: 25.0,),
+      leading: CircleAvatar(
+        child: WhiteIconLogo(),
+        radius: 25.0,
+      ),
       title: Text(user.name),
       children: <Widget>[
         Row(
@@ -144,17 +146,18 @@ class _ConnectPageState extends State<ConnectionsPage> {
             centerTitle: true,
             actions: <Widget>[
               Switch(
-                  value: _active,
-                  activeColor: teal,
-                  onChanged: (_bluetoothState == BluetoothState.off)
-                      ? null
-                      : (value) {
-                          setState(() => _active = value);
-                          if (value)
-                            _microbitDialog(context).then((name) {
-                              microbit.connect(name);
-                            });
-                        }),
+                value: _active,
+                activeColor: teal,
+                onChanged: (_bluetoothState == BluetoothState.off)
+                    ? null
+                    : (value) {
+                        setState(() => _active = value);
+                        if (value)
+                          _microbitDialog(context).then((name) {
+                            if (name != null && name != '') microbit.connect(name, _db.getID());
+                          });
+                      },
+              ),
             ],
           ),
           body: (_bluetoothState == BluetoothState.on)

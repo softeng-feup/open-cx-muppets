@@ -8,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 // Singleton class to mock the database
 class MMDatabase {
   static final MMDatabase _instance = MMDatabase._internal();
+  final int _id = 4;
   String _path;
   Database _database;
 
@@ -135,5 +136,9 @@ class MMDatabase {
     });
 
     return users;
+  }
+
+  int getID() {
+    return this._id;
   }
 }
