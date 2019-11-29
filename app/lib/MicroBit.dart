@@ -1,13 +1,15 @@
+import 'dart:core';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class MicroBit {
-  static const String UARTserviceUUID = '6E400001B5A3F393E0A9E50E24DCCA9E';
-  static const String TXcharacteristicUUID = '6E400002B5A3F393E0A9E50E24DCCA9E';
-  static const String RXcharacteristicUUID = '6E400003B5A3F393E0A9E50E24DCCA9E';
+  static const String UARTserviceUUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
+  static const String TXcharacteristicUUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
+  static const String RXcharacteristicUUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
   static const int scanDuration = 3;
 
-  FlutterBlue flutterBlue;
+  static final FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice microbit;
   BluetoothService uartService;
   BluetoothCharacteristic txCharacteristic;
@@ -15,32 +17,39 @@ class MicroBit {
   bool connected;
 
   MicroBit() {
-    this.flutterBlue = FlutterBlue.instance;
     this.connected = false;
   }
 
-  bool connect(String deviceName, int id) {
+  Future<bool> connect(String deviceName) async {
     // Start scanning
     try {
       flutterBlue.startScan(timeout: Duration(seconds: scanDuration));
     } on PlatformException catch (e) {
-      print('Fck: ${e.message}');
+      print('Starting Scan: ${e.message}');
     }
 
     // Listen to scan results
-    flutterBlue.scanResults.listen((scanResult) {
+    await for(var scanResult in flutterBlue.scanResults){
+      bool found = false;
       for (ScanResult result in scanResult) {
-        if (_checkDeviceName(result.device.name, deviceName)) {
-          if (!this.connected){
-            _connectDevice(result.device);
-            writeTo([id, '$']);
-          }
+        if (_checkDeviceName(result.device.name, deviceName) && !this.connected) {
+            this.microbit = result.device;
+            found = true;
+            break;
         }
       }
-    });
+      if(found) {
+        break;
+      }
+    }
 
     // Stop scanning
     flutterBlue.stopScan();
+
+    print('Moving to MB');
+    await _connectDevice();
+
+    print('This.connected is ' + this.connected.toString());
     return this.connected;
   }
 
@@ -48,12 +57,10 @@ class MicroBit {
     return deviceName == 'BBC micro:bit [' + expectedName + ']';
   }
 
-  Future<void> _connectDevice(BluetoothDevice device) async {
-    this.microbit = device;
-    this.connected = true;
-
-    this.microbit.connect();
+  Future<void> _connectDevice() async {
+    await this.microbit.connect(autoConnect: false);
     await _setUartService();
+    this.connected = true;
   }
 
   Future<void> _setUartService() async {
@@ -81,14 +88,21 @@ class MicroBit {
   }
 
   Future<List<int>> readFrom() async {
-    return await txCharacteristic.read();
+    return await this.txCharacteristic.read();
   }
 
   void writeTo(List<int> byteArray) async {
-    await rxCharacteristic.write(byteArray);
+    await this.rxCharacteristic.write(byteArray);
+    print('Sent ' + String.fromCharCodes(byteArray));
   }
 
   bool isConnnected() {
-    return connected;
+    return this.connected;
+  }
+
+  void disconnect() async {
+    await this.microbit.disconnect();
+    this.connected = false;
+    print('Disconected...');
   }
 }

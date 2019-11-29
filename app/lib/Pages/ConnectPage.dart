@@ -17,7 +17,7 @@ class ConnectionsPage extends StatefulWidget {
 class _ConnectPageState extends State<ConnectionsPage> {
   static MicroBit microbit = new MicroBit();
   static bool _active = false;
-  BluetoothState _bluetoothState;
+  static BluetoothState _bluetoothState;
   List<User> _connections = <User>[];
   final _db = MMDatabase();
 
@@ -80,6 +80,8 @@ class _ConnectPageState extends State<ConnectionsPage> {
   }
 
   Widget _buildBluetoothOff() {
+    if (_bluetoothState == BluetoothState.off) microbit.disconnect();
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -151,11 +153,20 @@ class _ConnectPageState extends State<ConnectionsPage> {
                 onChanged: (_bluetoothState == BluetoothState.off)
                     ? null
                     : (value) {
-                        setState(() => _active = value);
-                        if (value)
+                        if (value && !microbit.isConnnected()) {
                           _microbitDialog(context).then((name) {
-                            if (name != null && name != '') microbit.connect(name, _db.getID());
+                            print('Connecting...');
+                            if (name != null && name != '') {
+                              microbit.connect(name).then((connected) {
+                                if (connected) {
+                                  print('Connection Successful');
+                                  microbit.writeTo([_db.getID()+48, 36]);
+                                }
+                              });
+                            }
                           });
+                        }
+                        setState(() => _active = value);
                       },
               ),
             ],
