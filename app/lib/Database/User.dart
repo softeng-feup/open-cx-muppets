@@ -4,7 +4,6 @@ class User {
   final String nationality;
   final String occupation;
   final String company;
-  final String languages;
   final List<String> contacts;
   final List<String> interests;
 
@@ -14,13 +13,12 @@ class User {
       this.nationality,
       this.occupation,
       this.company,
-      this.languages,
       this.contacts,
       this.interests});
 
   String listToCSV(List<String> list) {
     String csv = '';
-    if (list.isNotEmpty) {
+    if (list != null && list.isNotEmpty) {
       csv = list.elementAt(0);
 
       for (int i = 1; i < list.length; i++) {
@@ -33,16 +31,26 @@ class User {
 
   // Convert a uSER into a Map. The keys must correspond to the names of the
   // columns in the database.
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'nationality': nationality,
-      'occupation': occupation,
-      'company': company,
-      'languages': languages,
-      'contacts': listToCSV(contacts),
-      'interests': listToCSV(interests)
-    };
+  Map<String, dynamic> toMap({bool noID = false}) {
+    if (noID) {
+      return {
+        'name': name,
+        'nationality': nationality,
+        'occupation': occupation,
+        'company': company,
+        'contacts': listToCSV(contacts),
+        'interests': listToCSV(interests)
+      };
+    } else {
+      return {
+        'id': id,
+        'name': name,
+        'nationality': nationality,
+        'occupation': occupation,
+        'company': company,
+        'contacts': listToCSV(contacts),
+        'interests': listToCSV(interests)
+      };
+    }
   }
 }
