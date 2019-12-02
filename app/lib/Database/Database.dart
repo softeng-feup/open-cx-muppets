@@ -25,7 +25,7 @@ class MMDatabase {
     await _loadPath();
     //await _deleteDb();
     await _initDb();
-    await _populateDb();
+    //await _populateDb();
   }
 
   void setID(int id) {
@@ -38,9 +38,7 @@ class MMDatabase {
 
   void _saveID() async {
     final prefs = await SharedPreferences.getInstance();
-    final userID = prefs.getInt('id') ?? -1;
-
-    if(userID == -1) await prefs.setInt('id', this._id);
+    await prefs.setInt('id', this._id);
   }
 
   Future<void> _loadPath() async {
@@ -160,13 +158,13 @@ class MMDatabase {
     );
   }
 
-  Future<void> updateUser(User user) async {
+  Future<void> updateUserProfile(User user) async {
     if (this._id == -1) {
       insertUser(user);
       return;
     }
 
-    await _database.update('users', user.toMap(), where: 'id = ?', whereArgs: [this._id]);
+    await _database.update('users', user.profile(), where: 'id = ?', whereArgs: [this._id]);
   }
 
   Future<void> insertUser(User user) async {

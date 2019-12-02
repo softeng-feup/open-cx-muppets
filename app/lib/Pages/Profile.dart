@@ -33,14 +33,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void dispose() async {
-    await saveInformation();
+    super.dispose();
 
+    await saveInformation();
     nameController.dispose();
     nationalityController.dispose();
     occupationController.dispose();
     companyController.dispose();
-
-    super.dispose();
   }
 
   @override
@@ -121,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
       company: companyController.text,
     );
 
-    await widget.db.updateUser(user);
+    await widget.db.updateUserProfile(user);
   }
 
   getProfilePicture() {

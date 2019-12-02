@@ -29,7 +29,16 @@ class User {
     return csv;
   }
 
-  // Convert a uSER into a Map. The keys must correspond to the names of the
+  Map<String, dynamic> profile() {
+    return {
+      'name': name,
+      'nationality': nationality,
+      'occupation': occupation,
+      'company': company,
+    };
+  }
+
+  // Convert a User into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap({bool noID = false}) {
     if (noID) {

@@ -92,7 +92,7 @@ class _ContactsPageState extends State<ContactsPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Add Interest:'),
+            title: Text('Add contact:'),
             content: TextField(
               autofocus: true,
               controller: _controller,
