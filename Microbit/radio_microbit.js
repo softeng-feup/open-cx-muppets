@@ -23,11 +23,11 @@ while (!gotID) {
     if (pins.digitalReadPin(DigitalPin.P2) == 1) {
         thisID = 0
         thisIDbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        basic.pause(500)
+        basic.pause(50)
         for (let index = 0; index <= 9; index++) {
-            basic.pause(50)
+            basic.pause(5)
             thisIDbits[index] = pins.digitalReadPin(DigitalPin.P2)
-            basic.pause(450)
+            basic.pause(45)
         }
         for (let index = 0; index <= 9; index++) {
             if (thisIDbits[index] > 0)
@@ -35,7 +35,7 @@ while (!gotID) {
         }
         basic.showNumber(thisID)
         gotID = true
-        basic.pause(2000)
+
         basic.showIcon(IconNames.Happy)
     }
 }
@@ -49,18 +49,18 @@ radio.onReceivedNumber(function (receivedNumber: number) {
         remId = remId % Math.pow(2, i)
     }
     pins.digitalWritePin(DigitalPin.P1, 1)
-    basic.pause(500)
+    basic.pause(50)
     for (let index = 0; index <= 9; index++) {
         pins.digitalWritePin(DigitalPin.P1, receivedIDbits[index])
-        basic.pause(500)
+        basic.pause(50)
     }
     pins.digitalWritePin(DigitalPin.P1, 0)
 })
 
 /* broadcast own id periodically */
-basic.forever(function () {
-    while (true) {
-        basic.pause(1000)
-        radio.sendNumber(thisID)
-    }
-})
+
+while (true) {
+    basic.pause(1000)
+    radio.sendNumber(thisID)
+}
+
