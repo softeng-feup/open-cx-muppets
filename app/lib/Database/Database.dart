@@ -158,6 +158,15 @@ class MMDatabase {
     );
   }
 
+  Future<void> updateUserInterests(User user) async {
+    if (this._id == -1) {
+      insertUser(user);
+      return;
+    }
+
+    await _database.update('users', user.getInterests(), where: 'id = ?', whereArgs: [this._id]);
+  }
+
   Future<void> updateUserContacts(User user) async {
     if (this._id == -1) {
       insertUser(user);
