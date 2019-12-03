@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:app/Database/Friends.dart';
 import 'package:app/Database/User.dart';
 import 'package:path/path.dart';
@@ -8,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 // Singleton class to mock the database
 class MMDatabase {
   static final MMDatabase _instance = MMDatabase._internal();
-  final int _id = 4;
+  final int _id = 260;
   String _path;
   Database _database;
 
@@ -110,7 +111,7 @@ class MMDatabase {
   Future<User> getUser(int id) async {
     final List<Map<String, dynamic>> map =
         await _database.query('users', where: 'id = ?', whereArgs: [id]);
-    
+
     var userContacts = map[0]['contacts'];
     var userInterests = map[0]['interests'];
 
@@ -134,7 +135,7 @@ class MMDatabase {
 
       users.add(user);
     });
-
+    print('Length: ${users.length}');
     return users;
   }
 

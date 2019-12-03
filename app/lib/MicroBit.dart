@@ -2,18 +2,16 @@ import 'dart:core';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:app/MicrobitUARTservice.dart';
 
 class MicroBit {
-  static const String UARTserviceUUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
-  static const String TXcharacteristicUUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
-  static const String RXcharacteristicUUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
+  
   static const int scanDuration = 3;
 
   static final FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice microbit;
-  BluetoothService uartService;
-  BluetoothCharacteristic txCharacteristic;
-  BluetoothCharacteristic rxCharacteristic;
+  MicroBitUARTservice uartService;
+  
   bool connected;
 
   MicroBit() {
@@ -67,33 +65,10 @@ class MicroBit {
     List<BluetoothService> services = await this.microbit.discoverServices();
 
     services.forEach((service) {
-      if (service.uuid.toString().toUpperCase() == UARTserviceUUID) {
-        this.uartService = service;
-        _setCharacteristics();
+      if (service.uuid.toString().toUpperCase() == MicroBitUARTservice.getUUID()) {
+        this.uartService = new MicroBitUARTservice(service);
       }
     });
-  }
-
-  void _setCharacteristics() {
-    List<BluetoothCharacteristic> characteristics =
-        this.uartService.characteristics;
-
-    for (BluetoothCharacteristic c in characteristics) {
-      if (c.uuid.toString().toUpperCase() == TXcharacteristicUUID) {
-        this.txCharacteristic = c;
-      } else if (c.uuid.toString().toUpperCase() == RXcharacteristicUUID) {
-        this.rxCharacteristic = c;
-      }
-    }
-  }
-
-  Future<List<int>> readFrom() async {
-    return await this.txCharacteristic.read();
-  }
-
-  void writeTo(List<int> byteArray) async {
-    await this.rxCharacteristic.write(byteArray);
-    print('Sent ' + String.fromCharCodes(byteArray));
   }
 
   bool isConnnected() {
@@ -104,5 +79,14 @@ class MicroBit {
     await this.microbit.disconnect();
     this.connected = false;
     print('Disconected...');
+  }
+
+  Future<void> writeTo(int value) async{
+    await this.uartService.write(value);
+    print('Sent ' + value.toString() + ' to Micro:bit');
+  }
+
+  void subscribe(Function onData) {
+    this.uartService.subscribe(onData);
   }
 }
