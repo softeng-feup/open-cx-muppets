@@ -1,4 +1,5 @@
-import 'package:app/Pages/Homepage.dart';
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
@@ -8,13 +9,27 @@ import 'package:flutter/material.dart';
 class InterestsPage extends StatefulWidget {
   InterestsPage({Key key, this.title}) : super(key: key);
   final String title;
+  final MMDatabase db = MMDatabase();
 
   @override
   _InterestsPageState createState() => _InterestsPageState();
 }
 
 class _InterestsPageState extends State<InterestsPage> {
-  List<String> contactList = List<String>();
+  List<String> interestList = List<String>();
+
+  @override
+  void initState() {
+    loadInformation();
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+
+    await saveInformation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +57,8 @@ class _InterestsPageState extends State<InterestsPage> {
     //ir buscar à database
     List<Widget> rows = List<Widget>();
 
-    for (int i = 0; i < contactList.length; i++) {
-      rows.add(createContactRow(contactList[i]));
+    for (int i = 0; i < interestList.length; i++) {
+      rows.add(createContactRow(interestList[i]));
     }
 
     return Container(
@@ -76,7 +91,7 @@ class _InterestsPageState extends State<InterestsPage> {
               ),
               onPressed: () {
                 setState(() {
-                  this.contactList.remove(contact);
+                  this.interestList.remove(contact);
                 });
               },
             ),
@@ -114,7 +129,7 @@ class _InterestsPageState extends State<InterestsPage> {
         createAlertDialog(this.context).then((input) {
           if (input != null) {
             setState(() {
-              this.contactList.add(input);
+              this.interestList.add(input);
             });
           }
         });
@@ -129,5 +144,23 @@ class _InterestsPageState extends State<InterestsPage> {
       fillColor: Colors.white,
       padding: const EdgeInsets.all(15.0),
     );
+  }
+
+  void loadInformation() {
+    Future<User> userFuture = widget.db.getThisUser();
+
+    userFuture.then((user) {
+      if (user.id != -1 && user.interests[0] != '') {
+        setState(() {
+          this.interestList = user.interests;
+        });
+      }
+    });
+  }
+
+  Future<void> saveInformation() async {
+    User user = User(interests: interestList);
+
+    await widget.db.updateUserInterests(user);
   }
 }

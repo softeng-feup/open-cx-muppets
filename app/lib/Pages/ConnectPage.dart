@@ -190,6 +190,13 @@ class _ConnectPageState extends State<ConnectionsPage> {
           body: (_bluetoothState == BluetoothState.on)
               ? _buildBluetoothOn()
               : _buildBluetoothOff(),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: (_bluetoothState == BluetoothState.on && _active) ? purpleButton : Colors.grey,
+            elevation: 2.0,
+            child: Icon(Icons.refresh),
+            onPressed: (_bluetoothState == BluetoothState.on && _active) ? 
+              () {idsList.clear(); _connections.clear();} : null,
+          ),
           bottomNavigationBar: Footer(color: teal),
         );
       },

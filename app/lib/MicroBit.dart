@@ -76,6 +76,7 @@ class MicroBit {
   }
 
   void disconnect() async {
+    this.uartService.unsubscribe();
     await this.microbit.disconnect();
     this.connected = false;
     print('Disconected...');

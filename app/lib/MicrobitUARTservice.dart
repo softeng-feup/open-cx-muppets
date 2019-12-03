@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter_blue/flutter_blue.dart';
 
 class MicroBitUARTservice {
@@ -12,6 +14,7 @@ class MicroBitUARTservice {
   static const String RXcharacteristicUUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
   static const int IdFlag = 36; //$
   static const int FinishFlag = 35; //#
+  StreamSubscription subscription;
 
   MicroBitUARTservice(BluetoothService uartService) {
     this.uartService = uartService;
@@ -37,9 +40,11 @@ class MicroBitUARTservice {
 
   void subscribe(Function onData) {
     this.txCharacteristic.setNotifyValue(true);
+    subscription = this.txCharacteristic.value.listen(onData);
+  }
 
-    final subscription = this.txCharacteristic.value.listen(null);
-    subscription.onData(onData);
+  void unsubscribe() {
+    subscription.cancel();
   }
 
   Future<void> write(int value) async {

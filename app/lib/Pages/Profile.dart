@@ -1,4 +1,6 @@
 import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Pages/ContactsPage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/FieldBox.dart';
@@ -11,12 +13,35 @@ import 'package:app/Widgets/Logos.dart';
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);
   final String title;
+  final MMDatabase db = MMDatabase();
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController nationalityController = TextEditingController();
+  TextEditingController occupationController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
+
+  @override
+  void initState() {
+    loadInformation();
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+
+    await saveInformation();
+    nameController.dispose();
+    nationalityController.dispose();
+    occupationController.dispose();
+    companyController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelTextColor: Colors.white,
                   enabledBorderColor: purpleButton,
                   focusedBorderColor: Colors.white,
+                  controller: nameController,
                 ),
                 FieldBox(
                   fieldName: 'nationality',
@@ -42,6 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelTextColor: Colors.white,
                   enabledBorderColor: purpleButton,
                   focusedBorderColor: Colors.white,
+                  controller: nationalityController,
                 ),
                 FieldBox(
                   fieldName: 'occupation',
@@ -49,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelTextColor: Colors.white,
                   enabledBorderColor: purpleButton,
                   focusedBorderColor: Colors.white,
+                  controller: occupationController,
                 ),
                 FieldBox(
                   fieldName: 'company',
@@ -56,6 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelTextColor: Colors.white,
                   enabledBorderColor: purpleButton,
                   focusedBorderColor: Colors.white,
+                  controller: companyController,
                 ),
                 contactsButton(ContactsPage())
               ],
@@ -65,6 +94,33 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: Footer(color: purpleButton),
     );
+  }
+
+  void loadInformation() {
+    Future<User> userFuture = widget.db.getThisUser();
+
+    userFuture.then((user) {  
+      print('Future returned');
+      if (user.id != -1) {
+        setState(() {
+          nameController = TextEditingController(text: user.name);
+          nationalityController = TextEditingController(text: user.nationality);
+          occupationController = TextEditingController(text: user.occupation);
+          companyController = TextEditingController(text: user.company);
+        });
+      }
+    });
+  }
+
+  Future<void> saveInformation() async {
+    User user = User(
+      name: nameController.text,
+      nationality: nationalityController.text,
+      occupation: occupationController.text,
+      company: companyController.text,
+    );
+
+    await widget.db.updateUserProfile(user);
   }
 
   getProfilePicture() {
@@ -77,9 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
         color: purpleButton,
         borderRadius: new BorderRadius.circular(18.0),
       ),
-      child: Center(
-          child: WhiteIconLogo()
-      ),
+      child: Center(child: WhiteIconLogo()),
     );
   }
 
