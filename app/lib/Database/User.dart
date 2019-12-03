@@ -16,20 +16,15 @@ class User {
       this.contacts,
       this.interests});
 
-  String listToCSV(List<String> list) {
-    String csv = '';
-    if (list != null && list.isNotEmpty) {
-      csv = list.elementAt(0);
-
-      for (int i = 1; i < list.length; i++) {
-        csv += ',' + list.elementAt(i);
-      }
-    }
-
-    return csv;
+  Map<String, dynamic> getContacts() {
+    return {'contacts': listToCSV(contacts)};
+  }
+  
+  Map<String, dynamic> getInterests() {
+    return {'interests': listToCSV(interests)};
   }
 
-  Map<String, dynamic> profile() {
+  Map<String, dynamic> getProfile() {
     return {
       'name': name,
       'nationality': nationality,
@@ -62,4 +57,17 @@ class User {
       };
     }
   }
+}
+
+String listToCSV(List<String> list) {
+  String csv = '';
+  if (list != null && list.isNotEmpty) {
+    csv = list.elementAt(0);
+
+    for (int i = 1; i < list.length; i++) {
+      csv += ',' + list.elementAt(i);
+    }
+  }
+
+  return csv;
 }

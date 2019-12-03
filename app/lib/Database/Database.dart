@@ -158,13 +158,22 @@ class MMDatabase {
     );
   }
 
+  Future<void> updateUserContacts(User user) async {
+    if (this._id == -1) {
+      insertUser(user);
+      return;
+    }
+
+    await _database.update('users', user.getContacts(), where: 'id = ?', whereArgs: [this._id]);
+  }
+
   Future<void> updateUserProfile(User user) async {
     if (this._id == -1) {
       insertUser(user);
       return;
     }
 
-    await _database.update('users', user.profile(), where: 'id = ?', whereArgs: [this._id]);
+    await _database.update('users', user.getProfile(), where: 'id = ?', whereArgs: [this._id]);
   }
 
   Future<void> insertUser(User user) async {
