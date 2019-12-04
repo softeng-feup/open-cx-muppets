@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:app/Database/Friends.dart';
 import 'package:app/Database/User.dart';
 import 'package:path/path.dart';
@@ -204,7 +205,7 @@ class MMDatabase {
 
       users.add(user);
     });
-
+    print('Length: ${users.length}');
     return users;
   }
 }

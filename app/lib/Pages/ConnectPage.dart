@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/Database/Database.dart';
 import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
@@ -8,6 +6,7 @@ import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicroBit.dart';
+import 'dart:convert';
 
 class ConnectionsPage extends StatefulWidget {
   @override
@@ -16,28 +15,43 @@ class ConnectionsPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectionsPage> {
   static MicroBit microbit = new MicroBit();
+  List<int> idsList = new List<int>();
   static bool _active = false;
   static BluetoothState _bluetoothState;
   List<User> _connections = <User>[];
   final _db = MMDatabase();
 
   Widget _buildConnections() {
-    return FutureBuilder(
-      builder: (context, futureSnap) {
-        if (futureSnap.connectionState == ConnectionState.done &&
-            futureSnap.hasData != null) {
-          return ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: futureSnap.data.length,
-              itemBuilder: (context, i) {
-                _connections = futureSnap.data;
-                return _buildRow(_connections[i]);
-              });
-        }
-        return Container();
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemCount: _connections.length,
+      itemBuilder: (context, i) {
+        return _buildRow(_connections[i]);
       },
-      future: _db.getRangeOfUsers(pollMicrobit(2)),
     );
+  }
+
+  void _onData(List<int> bytesRead) {
+    const int IdFlag = 36;
+
+    List<int> id = new List<int>();
+
+    for (final int byte in bytesRead) {
+      if (byte == IdFlag) {
+        int newId = int.parse(utf8.decode(id));
+        if (!idsList.contains(newId)) {
+          _db.getUser(newId).then((user) {
+            setState(() {
+              _connections.add(user);
+              idsList.add(newId);
+            });
+          });
+          print('New id received: $newId');
+        }
+        id.clear();
+      } else
+        id.add(byte);
+    }
   }
 
   Widget _buildRow(User user) {
@@ -160,7 +174,9 @@ class _ConnectPageState extends State<ConnectionsPage> {
                               microbit.connect(name).then((connected) {
                                 if (connected) {
                                   print('Connection Successful');
-                                  microbit.writeTo([_db.getID()+48, 36]);
+                                  microbit
+                                      .writeTo(_db.getID())
+                                      .then((a) => microbit.subscribe(_onData));
                                 }
                               });
                             }
@@ -174,25 +190,16 @@ class _ConnectPageState extends State<ConnectionsPage> {
           body: (_bluetoothState == BluetoothState.on)
               ? _buildBluetoothOn()
               : _buildBluetoothOff(),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: (_bluetoothState == BluetoothState.on && _active) ? purpleButton : Colors.grey,
+            elevation: 2.0,
+            child: Icon(Icons.refresh),
+            onPressed: (_bluetoothState == BluetoothState.on && _active) ? 
+              () {idsList.clear(); _connections.clear();} : null,
+          ),
           bottomNavigationBar: Footer(color: teal),
         );
       },
     );
   }
-}
-
-List<int> pollMicrobit(int numElements) {
-  List<int> result = <int>[];
-  Random random = Random(TimeOfDay.now().minute);
-
-  while (numElements != 0) {
-    int index = random.nextInt(3) + 1;
-
-    if (result.indexOf(index) == -1) {
-      result.add(index);
-      numElements--;
-    }
-  }
-
-  return result;
 }
