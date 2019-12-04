@@ -93,10 +93,10 @@ class MMDatabase {
       interests: ['javascript', 'database management', 'web development'],
     ));
 
-    friends.add(Friends(user_id: 1, friend_id: 2));
-    friends.add(Friends(user_id: 1, friend_id: 3));
-    friends.add(Friends(user_id: 2, friend_id: 1));
-    friends.add(Friends(user_id: 3, friend_id: 1));
+    friends.add(Friends(userID: 1, frindID: 2));
+    friends.add(Friends(userID: 1, frindID: 3));
+    friends.add(Friends(userID: 2, frindID: 1));
+    friends.add(Friends(userID: 3, frindID: 1));
 
     // Insert the User into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same user is inserted

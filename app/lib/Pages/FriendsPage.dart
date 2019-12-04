@@ -1,6 +1,5 @@
 import 'package:app/Animations/FadeRoute.dart';
 import 'package:app/Pages/FriendProfilePage.dart';
-import 'package:app/Pages/Homepage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/Logos.dart';
@@ -40,16 +39,16 @@ class _FriendsPageState extends State<FriendsPage> {
 
   Widget getFriends() {
     //ir buscar à database
-    List<String> friend_list = List<String>();
+    List<String> friendList = List<String>();
 
-    friend_list.add("Ana Amarelo");
-    friend_list.add("Red Resnikov");
-    friend_list.add("Mr Very very Serious");
+    friendList.add("Ana Amarelo");
+    friendList.add("Red Resnikov");
+    friendList.add("Mr Very very Serious");
 
     List<Widget> rows = List<Widget>();
 
-    for(int i = 0; i < friend_list.length; i++){
-      rows.add(createFriendRow(friend_list[i], FriendProfilePage(name: friend_list[i])));
+    for(int i = 0; i < friendList.length; i++){
+      rows.add(createFriendRow(friendList[i], FriendProfilePage(name: friendList[i])));
     }
 
     return Container(

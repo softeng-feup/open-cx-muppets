@@ -25,6 +25,7 @@ class LoginPage extends StatelessWidget {
               labelTextColor: teal,
               enabledBorderColor: teal,
               focusedBorderColor: teal,
+              controller: TextEditingController(),
             ),
             FieldBox(
               fieldName: 'password',
@@ -33,6 +34,7 @@ class LoginPage extends StatelessWidget {
               enabledBorderColor: teal,
               focusedBorderColor: teal,
               password: true,
+              controller: TextEditingController(),
             ),
             getButton("Login", context, null)
           ],
