@@ -21,6 +21,14 @@ class _ConnectPageState extends State<ConnectionsPage> {
   List<User> _connections = <User>[];
   final _db = MMDatabase();
 
+  @override
+  void initState() {
+    if(microbit.isConnnected()){
+      microbit.subscribe(_onData);
+    }
+    super.initState();
+  }
+
   Widget _buildConnections() {
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
@@ -94,7 +102,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
   }
 
   Widget _buildBluetoothOff() {
-    if (_bluetoothState == BluetoothState.off) microbit.disconnect();
+    if (microbit.isConnnected() && _bluetoothState == BluetoothState.off) microbit.disconnect();
 
     return Center(
       child: Column(

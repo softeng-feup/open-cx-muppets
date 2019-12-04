@@ -5,13 +5,12 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicrobitUARTservice.dart';
 
 class MicroBit {
-  
   static const int scanDuration = 3;
 
   static final FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice microbit;
   MicroBitUARTservice uartService;
-  
+
   bool connected;
 
   MicroBit() {
@@ -27,16 +26,17 @@ class MicroBit {
     }
 
     // Listen to scan results
-    await for(var scanResult in flutterBlue.scanResults){
+    await for (var scanResult in flutterBlue.scanResults) {
       bool found = false;
       for (ScanResult result in scanResult) {
-        if (_checkDeviceName(result.device.name, deviceName) && !this.connected) {
-            this.microbit = result.device;
-            found = true;
-            break;
+        if (_checkDeviceName(result.device.name, deviceName) &&
+            !this.connected) {
+          this.microbit = result.device;
+          found = true;
+          break;
         }
       }
-      if(found) {
+      if (found) {
         break;
       }
     }
@@ -65,7 +65,8 @@ class MicroBit {
     List<BluetoothService> services = await this.microbit.discoverServices();
 
     services.forEach((service) {
-      if (service.uuid.toString().toUpperCase() == MicroBitUARTservice.getUUID()) {
+      if (service.uuid.toString().toUpperCase() ==
+          MicroBitUARTservice.getUUID()) {
         this.uartService = new MicroBitUARTservice(service);
       }
     });
@@ -76,13 +77,15 @@ class MicroBit {
   }
 
   void disconnect() async {
-    this.uartService.unsubscribe();
-    await this.microbit.disconnect();
-    this.connected = false;
+    if (this.microbit != null) {
+      this.uartService.unsubscribe();
+      await this.microbit.disconnect();
+      this.connected = false;
+    }
     print('Disconected...');
   }
 
-  Future<void> writeTo(int value) async{
+  Future<void> writeTo(int value) async {
     await this.uartService.write(value);
     print('Sent ' + value.toString() + ' to Micro:bit');
   }
