@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Logos.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 class PageHeader extends StatelessWidget implements PreferredSizeWidget {
-  bool back;
+  final bool back;
 
 
   PageHeader({

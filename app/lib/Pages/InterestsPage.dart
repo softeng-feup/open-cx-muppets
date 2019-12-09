@@ -54,11 +54,10 @@ class _InterestsPageState extends State<InterestsPage> {
   }
 
   Widget getInterests() {
-    //ir buscar à database
     List<Widget> rows = List<Widget>();
 
     for (int i = 0; i < interestList.length; i++) {
-      rows.add(createContactRow(interestList[i]));
+      rows.add(createInterestRow(interestList[i]));
     }
 
     return Container(
@@ -69,20 +68,24 @@ class _InterestsPageState extends State<InterestsPage> {
     );
   }
 
-  Widget createContactRow(String contact) {
+  Widget createInterestRow(String interest) {
     return Container(
         margin: EdgeInsets.only(top: 10, bottom: 10),
-        padding: EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(4.0),
         width: 300,
         decoration: BoxDecoration(
             color: purpleButton, borderRadius: BorderRadius.circular(25.0)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              contact,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
+                  interest,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
             IconButton(
               icon: Icon(
@@ -91,7 +94,7 @@ class _InterestsPageState extends State<InterestsPage> {
               ),
               onPressed: () {
                 setState(() {
-                  this.interestList.remove(contact);
+                  this.interestList.remove(interest);
                 });
               },
             ),

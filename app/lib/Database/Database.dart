@@ -23,9 +23,9 @@ class MMDatabase {
 
   void _setupDb() async {
     await _loadPath();
-    //await _deleteDb();
+    await _deleteDb();
     await _initDb();
-    //await _populateDb();
+    await _populateDb();
   }
 
   void setID(int id) {
