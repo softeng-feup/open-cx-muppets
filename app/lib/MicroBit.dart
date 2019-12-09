@@ -55,11 +55,11 @@ class MicroBit {
 
     if (found) {
       print('Moving to MB');
-      await _connectDevice();
-      var state = await this.microbit.state.first;
-      if (state == BluetoothDeviceState.connected)
+      bool connected = await _connectDevice();
+      if (connected) {
         await _setUartService();
         this.connected = true;
+      }
     }
 
     print('This.connected is ' + this.connected.toString());
@@ -70,10 +70,18 @@ class MicroBit {
     return deviceName == 'BBC micro:bit [' + expectedName + ']';
   }
 
-  Future<void> _connectDevice() async {
+  Future<bool> _connectDevice() async {
+    Future<bool> returnValue;
+    await this.microbit.connect(autoConnect: false).timeout(Duration(seconds: 5), onTimeout: () {
+      print('Timeout ocurred');
+      returnValue = Future.value(false);
+      this.microbit.disconnect();
+    }).then((data) {
+      if(returnValue == null)
+        returnValue = Future.value(true);
+    });
 
-    await this.microbit.connect(autoConnect: false);
-
+    return returnValue;
   }
 
   Future<void> _setUartService() async {
