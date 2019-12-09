@@ -218,7 +218,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
                                 } else {
                                   print('Connection failed');
                                   _errorDialog(context,
-                                      'Microbit with name $name is not accessible. Please restart both devices!')
+                                      'Microbit with name $name is not accessible. Please try again!')
                                       .then((id) { setState(() {
                                         _active = false;
                                       });});

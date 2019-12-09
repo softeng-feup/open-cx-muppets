@@ -21,11 +21,8 @@ class MicroBit {
 
   Future<bool> connect(String deviceName) async {
     // Start scanning
-    try {
-      flutterBlue.startScan(timeout: Duration(seconds: scanDuration));
-    } on PlatformException catch (e) {
-      print('Starting Scan: ${e.message}');
-    }
+    
+    flutterBlue.startScan(timeout: Duration(seconds: scanDuration));
 
     int numTries = 0;
     bool found = false;

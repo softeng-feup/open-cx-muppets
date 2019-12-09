@@ -122,7 +122,7 @@ class MMDatabase {
     final List<Map<String, dynamic>> map =
         await _database.query('users', where: 'id = ?', whereArgs: [id]);
 
-    if(map[0] == null) {
+    if(map.isEmpty) {
       return User(id: -1);
     }
 
