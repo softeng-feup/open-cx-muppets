@@ -19,15 +19,15 @@ basic.showIcon(IconNames.Happy)
 
 /* get id from Top for broadcasting */
 while (!gotID) {
-    basic.pause(100)
+    basic.pause(50)
     if (pins.digitalReadPin(DigitalPin.P2) == 1) {
         thisID = 0
         thisIDbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        basic.pause(50)
+        basic.pause(100)
         for (let index = 0; index <= 9; index++) {
-            basic.pause(5)
+            basic.pause(10)
             thisIDbits[index] = pins.digitalReadPin(DigitalPin.P2)
-            basic.pause(45)
+            basic.pause(90)
         }
         for (let index = 0; index <= 9; index++) {
             if (thisIDbits[index] > 0)
@@ -49,10 +49,10 @@ radio.onReceivedNumber(function (receivedNumber: number) {
         remId = remId % Math.pow(2, i)
     }
     pins.digitalWritePin(DigitalPin.P1, 1)
-    basic.pause(50)
+    basic.pause(100)
     for (let index = 0; index <= 9; index++) {
         pins.digitalWritePin(DigitalPin.P1, receivedIDbits[index])
-        basic.pause(50)
+        basic.pause(100)
     }
     pins.digitalWritePin(DigitalPin.P1, 0)
 })

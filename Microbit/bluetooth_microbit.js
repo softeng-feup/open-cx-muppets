@@ -46,11 +46,11 @@ basic.showIcon(IconNames.Happy)
 
 /* id is sent to Bot for broadcasting */
 pins.digitalWritePin(DigitalPin.P1, 1)
-basic.pause(50)
+basic.pause(100)
 
 for (let index = 0; index <= 9; index++) {
     pins.digitalWritePin(DigitalPin.P1, thisIDbits[index])
-    basic.pause(50)
+    basic.pause(100)
 }
 pins.digitalWritePin(DigitalPin.P1, 0)
 
@@ -58,15 +58,15 @@ pins.digitalWritePin(DigitalPin.P1, 0)
 /* polling for ids from Bot */
 
 while (true) {
-    basic.pause(10)
+    basic.pause(50)
     if (pins.digitalReadPin(DigitalPin.P2) == 1) {
         receivedID = 0
         receivedIDbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        basic.pause(50)
+        basic.pause(100)
         for (let index = 0; index <= 9; index++) {
-            basic.pause(5)
+            basic.pause(10)
             receivedIDbits[index] = pins.digitalReadPin(DigitalPin.P2)
-            basic.pause(45)
+            basic.pause(90)
         }
         for (let index = 0; index <= 9; index++) {
             if (receivedIDbits[index] > 0)
