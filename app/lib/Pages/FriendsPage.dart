@@ -22,6 +22,12 @@ class _FriendsPageState extends State<FriendsPage> {
   List<User> friendList = List<User>();
 
   @override
+  void initState() {
+    loadInformation();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PageHeader(),
@@ -56,9 +62,8 @@ class _FriendsPageState extends State<FriendsPage> {
     List<Widget> rows = List<Widget>();
 
     for (int i = 0; i < friendList.length; i++) {
-      if (friendList[i].id != -1)
         rows.add(createFriendRow(
-            friendList[i].name, FriendProfilePage(name: friendList[i].name)));
+            friendList[i].name, FriendProfilePage(user: friendList[i])));
     }
 
     return Container(
@@ -94,11 +99,15 @@ class _FriendsPageState extends State<FriendsPage> {
           ),
           onPressed: destinationPage == null
               ? () {}
-              : () {
-                  Navigator.push(
+              : () async {
+                  final removed = await Navigator.push(
                     context,
                     FadeRoute(page: destinationPage),
-                  );
+                  ) ?? false;
+
+                  if(removed) {
+                    loadInformation();
+                  }
                 },
         ));
   }
