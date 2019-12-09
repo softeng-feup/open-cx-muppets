@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top:30),
+              padding: EdgeInsets.only(top:10),
               child: getIcon(),
             ),
             BlackLogo(

@@ -129,13 +129,9 @@ class _Page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 120.0,
-        horizontal: 30.0,
-      ),
+    return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(bottom: 50),
@@ -175,7 +171,6 @@ class _Page1 extends StatelessWidget {
               )
             )
           ],
-
       ),
     );
   }
