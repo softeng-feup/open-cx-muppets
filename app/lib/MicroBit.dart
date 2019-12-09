@@ -57,9 +57,10 @@ class MicroBit {
       print('Moving to MB');
       await _connectDevice();
       var state = await this.microbit.state.first;
-      if (state == BluetoothDeviceState.connected)
+      if (state == BluetoothDeviceState.connected) {
         await _setUartService();
         this.connected = true;
+      }
     }
 
     print('This.connected is ' + this.connected.toString());
@@ -71,7 +72,7 @@ class MicroBit {
   }
 
   Future<void> _connectDevice() async {
-
+    
     await this.microbit.connect(autoConnect: false);
 
   }
