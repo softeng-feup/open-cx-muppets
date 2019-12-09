@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter/services.dart';
@@ -5,7 +6,8 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicrobitUARTservice.dart';
 
 class MicroBit {
-  static const int scanDuration = 3;
+  static const int scanDuration = 2;
+  static const int maxNumTries = 100;
 
   static final FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice microbit;
@@ -25,27 +27,40 @@ class MicroBit {
       print('Starting Scan: ${e.message}');
     }
 
+    int numTries = 0;
+    bool found = false;
     // Listen to scan results
-    await for (var scanResult in flutterBlue.scanResults) {
-      bool found = false;
+
+    await for (List<ScanResult> scanResult in flutterBlue.scanResults) {
+      print('Received scan results (Length: ${scanResult.length})');
+
+      numTries++;
       for (ScanResult result in scanResult) {
-        if (_checkDeviceName(result.device.name, deviceName) &&
-            !this.connected) {
-          this.microbit = result.device;
+        print('Analysing scan result: ${result.device.name}');
+        if (_checkDeviceName(result.device.name, deviceName) && !found && !this.connected) {
           found = true;
+          this.microbit = result.device;
           break;
         }
       }
-      if (found) {
+
+      if (found || numTries >= maxNumTries) {
         break;
       }
     }
 
     // Stop scanning
+    print('Stopping scan');
     flutterBlue.stopScan();
 
-    print('Moving to MB');
-    await _connectDevice();
+    if (found) {
+      print('Moving to MB');
+      await _connectDevice();
+      var state = await this.microbit.state.first;
+      if (state == BluetoothDeviceState.connected)
+        await _setUartService();
+        this.connected = true;
+    }
 
     print('This.connected is ' + this.connected.toString());
     return this.connected;
@@ -56,9 +71,9 @@ class MicroBit {
   }
 
   Future<void> _connectDevice() async {
+
     await this.microbit.connect(autoConnect: false);
-    await _setUartService();
-    this.connected = true;
+
   }
 
   Future<void> _setUartService() async {
@@ -76,13 +91,13 @@ class MicroBit {
     return this.connected;
   }
 
-  void disconnect() async {
+  Future<void> disconnect() async {
     if (this.microbit != null) {
       this.uartService.unsubscribe();
       await this.microbit.disconnect();
+      this.microbit = null;
       this.connected = false;
     }
-    print('Disconected...');
   }
 
   Future<void> writeTo(int value) async {

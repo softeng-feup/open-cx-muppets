@@ -15,10 +15,10 @@ class ConnectionsPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectionsPage> {
   static MicroBit microbit = new MicroBit();
-  List<int> idsList = new List<int>();
+  static List<int> _idsList = new List<int>();
   static bool _active = false;
   static BluetoothState _bluetoothState;
-  List<User> _connections = <User>[];
+  static List<User> _connections = <User>[];
   final _db = MMDatabase();
 
   @override
@@ -47,11 +47,11 @@ class _ConnectPageState extends State<ConnectionsPage> {
     for (final int byte in bytesRead) {
       if (byte == IdFlag) {
         int newId = int.parse(utf8.decode(id));
-        if (!idsList.contains(newId)) {
+        if (!_idsList.contains(newId)) {
           _db.getUser(newId).then((user) {
             setState(() {
               _connections.add(user);
-              idsList.add(newId);
+              _idsList.add(newId);
             });
           });
           print('New id received: $newId');
@@ -101,7 +101,13 @@ class _ConnectPageState extends State<ConnectionsPage> {
   }
 
   Widget _buildBluetoothOff() {
-    if (microbit.isConnnected() && _bluetoothState == BluetoothState.off) microbit.disconnect();
+    if (microbit.isConnnected() && _bluetoothState == BluetoothState.off) {
+      _idsList.clear();
+      _connections.clear();
+
+      print('Disconnecting Micro:bit');
+      microbit.disconnect().then( (a) => print('Micro:bit Disconnected'));
+    }
 
     return Center(
       child: Column(
@@ -154,6 +160,26 @@ class _ConnectPageState extends State<ConnectionsPage> {
     return Future.value(null);
   }
 
+  Future<void> _errorDialog(BuildContext context, String errorMessage) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<BluetoothState>(
@@ -185,6 +211,10 @@ class _ConnectPageState extends State<ConnectionsPage> {
                                       .writeTo(_db.getID())
                                       .then((a) => microbit.subscribe(_onData));
                                 }
+                                else {
+                                  print('Connection failed');
+                                  _errorDialog(context, 'Could not find a Micro:bit device with name $name');
+                                }
                               });
                             }
                           });
@@ -202,7 +232,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
             elevation: 2.0,
             child: Icon(Icons.refresh),
             onPressed: (_bluetoothState == BluetoothState.on && _active) ? 
-              () {idsList.clear(); _connections.clear();} : null,
+              () {_idsList.clear(); _connections.clear();} : null,
           ),
           bottomNavigationBar: Footer(color: purpleButton),
         );
