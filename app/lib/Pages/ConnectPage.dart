@@ -65,23 +65,22 @@ class _ConnectPageState extends State<ConnectionsPage> {
   Widget _buildRow(User user) {
     return ExpansionTile(
       leading: CircleAvatar(
-        child: WhiteIconLogo(),
+        child: Container(
+          padding: EdgeInsets.all(2.0),
+          child: WhiteIconLogo(),
+        ),
+        backgroundColor: bluePage,
         radius: 25.0,
       ),
       title: Text(user.name),
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-              child: Text('Interests: '),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-              child: Text(user.interests.toString()),
-            ),
-          ],
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          child: Text('Interests: '),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          child: Text(user.interests.toString()),
         ),
       ],
     );
@@ -205,7 +204,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
             onPressed: (_bluetoothState == BluetoothState.on && _active) ? 
               () {idsList.clear(); _connections.clear();} : null,
           ),
-          bottomNavigationBar: Footer(color: teal),
+          bottomNavigationBar: Footer(color: purpleButton),
         );
       },
     );

@@ -19,11 +19,11 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top:30),
               child: getIcon(),
             ),
             BlackLogo(
-              padding: EdgeInsets.only(bottom: 50.0),
+              padding: EdgeInsets.only(bottom: 30.0),
               width: 150,
             ),
             getButton("Connect", context, ConnectionsPage()),
