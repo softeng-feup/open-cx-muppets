@@ -23,7 +23,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   @override
   void initState() {
-    if(microbit.isConnnected()){
+    if (microbit.isConnnected()) {
       microbit.subscribe(_onData);
     }
     super.initState();
@@ -49,10 +49,12 @@ class _ConnectPageState extends State<ConnectionsPage> {
         int newId = int.parse(utf8.decode(id));
         if (!_idsList.contains(newId)) {
           _db.getUser(newId).then((user) {
-            setState(() {
-              _connections.add(user);
-              _idsList.add(newId);
-            });
+            if (user.id != -1) {
+              setState(() {
+                _connections.add(user);
+                _idsList.add(newId);
+              });
+            }
           });
           print('New id received: $newId');
         }
@@ -80,7 +82,10 @@ class _ConnectPageState extends State<ConnectionsPage> {
         ),
         Container(
           padding: EdgeInsets.all(12.0),
-          child: Text(user.interests.toString(), textAlign: TextAlign.center,),
+          child: Text(
+            user.interests.toString(),
+            textAlign: TextAlign.center,
+          ),
         ),
         pairButton()
       ],
@@ -107,7 +112,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
       _connections.clear();
 
       print('Disconnecting Micro:bit');
-      microbit.disconnect().then( (a) => print('Micro:bit Disconnected'));
+      microbit.disconnect().then((a) => print('Micro:bit Disconnected'));
     }
 
     return Center(
@@ -163,22 +168,21 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   Future<void> _errorDialog(BuildContext context, String errorMessage) {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text(errorMessage),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(errorMessage),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -211,10 +215,13 @@ class _ConnectPageState extends State<ConnectionsPage> {
                                   microbit
                                       .writeTo(_db.getID())
                                       .then((a) => microbit.subscribe(_onData));
-                                }
-                                else {
+                                } else {
                                   print('Connection failed');
-                                  _errorDialog(context, 'Could not find a Micro:bit device with name $name');
+                                  _errorDialog(context,
+                                      'Microbit with name $name is not accessible. Please restart both devices!')
+                                      .then((id) { setState(() {
+                                        _active = false;
+                                      });});
                                 }
                               });
                             }
@@ -229,11 +236,18 @@ class _ConnectPageState extends State<ConnectionsPage> {
               ? _buildBluetoothOn()
               : _buildBluetoothOff(),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: (_bluetoothState == BluetoothState.on && _active) ? purpleButton : Colors.grey,
+            backgroundColor: (_bluetoothState == BluetoothState.on && _active)
+                ? purpleButton
+                : Colors.grey,
             elevation: 2.0,
             child: Icon(Icons.refresh),
-            onPressed: (_bluetoothState == BluetoothState.on && _active) ? 
-              () {_idsList.clear(); _connections.clear();} : null,
+            onPressed: (_bluetoothState == BluetoothState.on && _active)
+                ? () => setState(() {
+                    _idsList.clear();
+                    _connections.clear();
+                    print('clicked');
+                  })
+                : null,
           ),
           bottomNavigationBar: Footer(color: purpleButton),
         );
@@ -243,18 +257,18 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   Widget pairButton() {
     return Center(
-        child: RaisedButton(
-            elevation: 10,
-            color: purpleButton,
-            disabledColor: teal,
-            padding: EdgeInsets.all(12),
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(25.0),
-            ),
-            onPressed: null,
-            child: Text("PAIR",
-                style: TextStyle(fontSize: 20, color: Colors.white)),
-          ),
+      child: RaisedButton(
+        elevation: 10,
+        color: purpleButton,
+        disabledColor: teal,
+        padding: EdgeInsets.all(12),
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(25.0),
+        ),
+        onPressed: null,
+        child:
+            Text("PAIR", style: TextStyle(fontSize: 20, color: Colors.white)),
+      ),
     );
   }
 }

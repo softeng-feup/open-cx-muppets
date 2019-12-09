@@ -122,6 +122,10 @@ class MMDatabase {
     final List<Map<String, dynamic>> map =
         await _database.query('users', where: 'id = ?', whereArgs: [id]);
 
+    if(map[0] == null) {
+      return User(id: -1);
+    }
+
     var userContacts = map[0]['contacts'];
     var userInterests = map[0]['interests'];
 
