@@ -57,24 +57,51 @@ class FriendProfilePage extends StatelessWidget {
 
     //get friend's job
     String job = "Scientist";
-    result.add(Text("$job", style: TextStyle(color: Colors.white),));
+    result.add(Text("$job", style: TextStyle(color: Colors.white)));
     
     //get friend's enterprise
     String enterprise = "CGI Enterprise";
     result.add(Text("$enterprise", style: TextStyle(color: Colors.white),));
-    
+
+    result.add(Container(
+        margin: EdgeInsets.only(top: 12.0),
+        child: Text("Interests", style: TextStyle(fontSize: 10.0, color: Colors.white),)
+      )
+    );
+
+    List<String> interests = new List<String>();
+
+    interests.add("Computer Science");
+    interests.add("CGI");
+    interests.add("Aliens");
+
+    for(int i = 0; i < interests.length; i++){
+      String interest = interests[i];
+
+      result.add(
+          Container(
+              margin: EdgeInsets.all(4.0),
+              child:Text("$interest", style: TextStyle(color: Colors.white),)
+          )
+      );
+    }
+
     return Expanded(
         child:Container(
-          height: 250,
           padding: EdgeInsets.all(12.0),
           margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 12.0, right: 6.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18.0),
               color: purpleButton
             ),
-          child: Column(
-            children: result
-          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 250
+            ),
+            child: Column(
+                children: result
+            ),
+          )
         )
     );
   }
@@ -94,21 +121,30 @@ class FriendProfilePage extends StatelessWidget {
     for(int i = 0; i < contacts.length; i++){
       String contact = contacts[i];
 
-      result.add(Text("$contact", style: TextStyle(color: Colors.white),));
+      result.add(
+          Container(
+              margin: EdgeInsets.all(4.0),
+              child:Text("$contact", style: TextStyle(color: Colors.white),)
+          )
+      );
     }
 
     return Expanded(
       child:Container(
-        height: 250,
         padding: EdgeInsets.all(12.0),
         margin: EdgeInsets.only(top:12.0, bottom: 12.0, left: 6.0, right: 12.0),
         decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18.0),
               color: teal
           ),
-        child: Column(
-            children: result
-        ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              minHeight: 250
+          ),
+          child: Column(
+              children: result
+          ),
+        )
       )
     );
   }

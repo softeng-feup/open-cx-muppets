@@ -78,10 +78,11 @@ class _ConnectPageState extends State<ConnectionsPage> {
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           child: Text('Interests: '),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-          child: Text(user.interests.toString()),
+        Container(
+          padding: EdgeInsets.all(12.0),
+          child: Text(user.interests.toString(), textAlign: TextAlign.center,),
         ),
+        pairButton()
       ],
     );
   }
@@ -237,6 +238,23 @@ class _ConnectPageState extends State<ConnectionsPage> {
           bottomNavigationBar: Footer(color: purpleButton),
         );
       },
+    );
+  }
+
+  Widget pairButton() {
+    return Center(
+        child: RaisedButton(
+            elevation: 10,
+            color: purpleButton,
+            disabledColor: teal,
+            padding: EdgeInsets.all(12),
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(25.0),
+            ),
+            onPressed: null,
+            child: Text("PAIR",
+                style: TextStyle(fontSize: 20, color: Colors.white)),
+          ),
     );
   }
 }
