@@ -1,12 +1,12 @@
 class Friends {
-  final int user_id;
-  final int friend_id;
+  final int userID;
+  final int friendID;
 
-  Friends({this.user_id, this.friend_id});
+  Friends({this.userID, this.friendID});
 
   // Convert a uSER into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
-    return {'user_id': user_id, 'friend_id': friend_id};
+    return {'user_id': userID, 'friend_id': friendID};
   }
 }

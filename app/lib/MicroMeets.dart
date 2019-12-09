@@ -1,3 +1,4 @@
+import 'package:app/Database/Database.dart';
 import 'package:app/Pages/GetStartedPages.dart';
 import 'package:app/Pages/LogoPage.dart';
 import 'package:app/Pages/Homepage.dart';
@@ -16,6 +17,12 @@ class _MicroMeetsState extends State<MicroMeets> {
   Future<bool> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final showTut = prefs.getBool('show_tutorial') ?? true;
+    final userID = prefs.getInt('id') ?? -1;
+
+    print(userID);
+
+    // The current used id is saved on the phone and then passed to the database
+    MMDatabase().setID(userID);
 
     return showTut;
   }
@@ -25,8 +32,8 @@ class _MicroMeetsState extends State<MicroMeets> {
     super.initState();
 
     final Future<bool> preferencesFuture = Future.delayed(
-      Duration(seconds: 3),
-      () => _loadPreferences(),
+      Duration(microseconds: 5500000),
+          () => _loadPreferences(),
     );
 
     preferencesFuture.then((showTut) {

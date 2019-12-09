@@ -1,4 +1,5 @@
-import 'package:app/Pages/Homepage.dart';
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
@@ -8,13 +9,27 @@ import 'package:flutter/material.dart';
 class InterestsPage extends StatefulWidget {
   InterestsPage({Key key, this.title}) : super(key: key);
   final String title;
+  final MMDatabase db = MMDatabase();
 
   @override
   _InterestsPageState createState() => _InterestsPageState();
 }
 
 class _InterestsPageState extends State<InterestsPage> {
-  List<String> contactList = List<String>();
+  List<String> interestList = List<String>();
+
+  @override
+  void initState() {
+    loadInformation();
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+
+    await saveInformation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +54,10 @@ class _InterestsPageState extends State<InterestsPage> {
   }
 
   Widget getInterests() {
-    //ir buscar à database
     List<Widget> rows = List<Widget>();
 
-    for (int i = 0; i < contactList.length; i++) {
-      rows.add(createContactRow(contactList[i]));
+    for (int i = 0; i < interestList.length; i++) {
+      rows.add(createInterestRow(interestList[i]));
     }
 
     return Container(
@@ -54,20 +68,24 @@ class _InterestsPageState extends State<InterestsPage> {
     );
   }
 
-  Widget createContactRow(String contact) {
+  Widget createInterestRow(String interest) {
     return Container(
         margin: EdgeInsets.only(top: 10, bottom: 10),
-        padding: EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(4.0),
         width: 300,
         decoration: BoxDecoration(
             color: purpleButton, borderRadius: BorderRadius.circular(25.0)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              contact,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
+                  interest,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
             IconButton(
               icon: Icon(
@@ -76,7 +94,7 @@ class _InterestsPageState extends State<InterestsPage> {
               ),
               onPressed: () {
                 setState(() {
-                  this.contactList.remove(contact);
+                  this.interestList.remove(interest);
                 });
               },
             ),
@@ -114,7 +132,7 @@ class _InterestsPageState extends State<InterestsPage> {
         createAlertDialog(this.context).then((input) {
           if (input != null) {
             setState(() {
-              this.contactList.add(input);
+              this.interestList.add(input);
             });
           }
         });
@@ -129,5 +147,23 @@ class _InterestsPageState extends State<InterestsPage> {
       fillColor: Colors.white,
       padding: const EdgeInsets.all(15.0),
     );
+  }
+
+  void loadInformation() {
+    Future<User> userFuture = widget.db.getThisUser();
+
+    userFuture.then((user) {
+      if (user.id != -1 && user.interests[0] != '') {
+        setState(() {
+          this.interestList = user.interests;
+        });
+      }
+    });
+  }
+
+  Future<void> saveInformation() async {
+    User user = User(interests: interestList);
+
+    await widget.db.updateUserInterests(user);
   }
 }

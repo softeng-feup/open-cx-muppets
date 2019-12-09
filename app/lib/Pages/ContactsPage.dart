@@ -1,3 +1,5 @@
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
 import 'package:app/Widgets/PageHeader.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 class ContactsPage extends StatefulWidget {
   ContactsPage({Key key, this.title}) : super(key: key);
   final String title;
+  final MMDatabase db = MMDatabase();
 
   @override
   _ContactsPageState createState() => _ContactsPageState();
@@ -14,6 +17,19 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   List<String> contactList = List<String>();
+
+  @override
+  void initState() {
+    loadInformation();
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+
+    await saveInformation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +54,6 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Widget getContacts() {
-    //ir buscar à database
     List<Widget> rows = List<Widget>();
 
     for (int i = 0; i < this.contactList.length; i++) {
@@ -63,11 +78,14 @@ class _ContactsPageState extends State<ContactsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Flexible(
-              child: Text(
-                contact,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
+                  contact,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
             IconButton(
@@ -92,7 +110,7 @@ class _ContactsPageState extends State<ContactsPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Add Interest:'),
+            title: Text('Add contact:'),
             content: TextField(
               autofocus: true,
               controller: _controller,
@@ -130,5 +148,23 @@ class _ContactsPageState extends State<ContactsPage> {
       fillColor: Colors.white,
       padding: const EdgeInsets.all(15.0),
     );
+  }
+
+  void loadInformation() {
+    Future<User> userFuture = widget.db.getThisUser();
+
+    userFuture.then((user) {
+      if (user.id != -1 && user.contacts[0] != '') {
+        setState(() {
+          this.contactList = user.contacts;
+        });
+      }
+    });
+  }
+
+  Future<void> saveInformation() async {
+    User user = User(contacts: contactList);
+
+    await widget.db.updateUserContacts(user);
   }
 }

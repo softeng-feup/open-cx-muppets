@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app/Theme.dart';
 
 class FieldBox extends StatelessWidget {
   final String fieldName;
@@ -9,6 +8,8 @@ class FieldBox extends StatelessWidget {
   final Color focusedBorderColor;
   final bool password;
 
+  final TextEditingController controller;
+
   FieldBox({
     @required this.fieldName,
     @required this.textColor,
@@ -16,6 +17,7 @@ class FieldBox extends StatelessWidget {
     @required this.enabledBorderColor,
     @required this.focusedBorderColor,
     this.password = false,
+    @required this.controller
   });
 
   @override
@@ -40,6 +42,7 @@ class FieldBox extends StatelessWidget {
             borderSide: BorderSide(color: focusedBorderColor),
           ),
         ),
+        controller: controller,
       ),
     );
   }

@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:app/Database/Friends.dart';
 import 'package:app/Database/User.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 //Database scripts to promote encapsulation
 
 // Singleton class to mock the database
 class MMDatabase {
   static final MMDatabase _instance = MMDatabase._internal();
+  int _id;
   String _path;
   Database _database;
 
@@ -23,7 +25,20 @@ class MMDatabase {
     await _loadPath();
     //await _deleteDb();
     await _initDb();
-    await _populateDb();
+    //await _populateDb();
+  }
+
+  void setID(int id) {
+    this._id = id;
+  }
+
+  int getID() {
+    return this._id;
+  }
+
+  void _saveID() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('id', this._id);
   }
 
   Future<void> _loadPath() async {
@@ -40,9 +55,9 @@ class MMDatabase {
         onCreate: (Database db, int version) async {
       // When creating the db, create the tables
       await db.execute(
-          'CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, nationality TEXT,occupation TEXT, company TEXT, languages TEXT, contacts TEXT, interests TEXT)');
+          'CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, nationality TEXT,occupation TEXT, company TEXT, contacts TEXT, interests TEXT)');
       await db.execute(
-          'CREATE TABLE friends (user_id INTEGER , friend_id Integer, PRIMARY KEY(user_id, friend_id), FOREIGN KEY (user_id) REFERENCES User(id), FOREIGN KEY (friend_id) REFERENCES User(id))');
+          'CREATE TABLE friends (user_id INTEGER , friend_id INTEGER, PRIMARY KEY(user_id, friend_id), FOREIGN KEY (user_id) REFERENCES User(id), FOREIGN KEY (friend_id) REFERENCES User(id))');
     });
   }
 
@@ -56,7 +71,6 @@ class MMDatabase {
       nationality: 'North American',
       occupation: 'IT consultant',
       company: 'SomeInk Software',
-      languages: 'English',
       contacts: ['123', 'johnemail@smh.com'],
       interests: ['javascript', 'iot', 'software engineering'],
     ));
@@ -66,7 +80,6 @@ class MMDatabase {
       nationality: 'Portuguese',
       occupation: 'Scientist',
       company: 'CGI Enterprise',
-      languages: 'Portuguese',
       contacts: ['456', 'anaemail@smh.com'],
       interests: ['python', 'research', 'quantum computing'],
     ));
@@ -76,15 +89,14 @@ class MMDatabase {
       nationality: 'Russian',
       occupation: 'Cybersecurity Expert',
       company: 'CyberWall',
-      languages: 'Russian',
       contacts: ['789', 'redemail@smh.com'],
       interests: ['javascript', 'database management', 'web development'],
     ));
 
-    friends.add(Friends(user_id: 1, friend_id: 2));
-    friends.add(Friends(user_id: 1, friend_id: 3));
-    friends.add(Friends(user_id: 2, friend_id: 1));
-    friends.add(Friends(user_id: 3, friend_id: 1));
+    friends.add(Friends(userID: 1, friendID: 2));
+    friends.add(Friends(userID: 1, friendID: 3));
+    friends.add(Friends(userID: 2, friendID: 1));
+    friends.add(Friends(userID: 3, friendID: 1));
 
     // Insert the User into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same user is inserted
@@ -109,7 +121,11 @@ class MMDatabase {
   Future<User> getUser(int id) async {
     final List<Map<String, dynamic>> map =
         await _database.query('users', where: 'id = ?', whereArgs: [id]);
-    
+
+    if (map.isEmpty) {
+      return User(id: -1);
+    }
+
     var userContacts = map[0]['contacts'];
     var userInterests = map[0]['interests'];
 
@@ -119,10 +135,83 @@ class MMDatabase {
       nationality: map[0]['nationality'],
       occupation: map[0]['occupation'],
       company: map[0]['company'],
-      languages: map[0]['languages'],
       contacts: userContacts.split(','),
       interests: userInterests.split(','),
     );
+  }
+
+  Future<User> getThisUser() async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('users', where: 'id = ?', whereArgs: [this._id]);
+
+    if (map.isEmpty) {
+      return User(id: -1);
+    }
+
+    var userContacts = map[0]['contacts'];
+    var userInterests = map[0]['interests'];
+
+    return User(
+      id: map[0]['id'],
+      name: map[0]['name'],
+      nationality: map[0]['nationality'],
+      occupation: map[0]['occupation'],
+      company: map[0]['company'],
+      contacts: userContacts.split(','),
+      interests: userInterests.split(','),
+    );
+  }
+
+  Future<void> updateUserInterests(User user) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('users', where: 'id = ?', whereArgs: [this._id]);
+
+    if (map.isEmpty) {
+      insertUser(user);
+      return;
+    }
+
+    await _database.update('users', user.getInterests(),
+        where: 'id = ?', whereArgs: [this._id]);
+  }
+
+  Future<void> updateUserContacts(User user) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('users', where: 'id = ?', whereArgs: [this._id]);
+
+    if (map.isEmpty) {
+      insertUser(user);
+      return;
+    }
+
+    await _database.update('users', user.getContacts(),
+        where: 'id = ?', whereArgs: [this._id]);
+  }
+
+  Future<void> updateUserProfile(User user) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('users', where: 'id = ?', whereArgs: [this._id]);
+
+    if (map.isEmpty) {
+      insertUser(user);
+      return;
+    }
+
+    await _database.update('users', user.getProfile(),
+        where: 'id = ?', whereArgs: [this._id]);
+  }
+
+  Future<void> insertUser(User user) async {
+    await _database.insert('users', user.toMap(noID: true),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
+    var map =
+        await _database.query('users', columns: ['id'], orderBy: 'id DESC');
+    this._id = map[0]['id'];
+
+    _saveID();
+
+    print(' Inserted id = ' + this._id.toString());
   }
 
   Future<List<User>> getRangeOfUsers(List<int> ids) async {
@@ -133,7 +222,34 @@ class MMDatabase {
 
       users.add(user);
     });
+    print('Length: ${users.length}');
+    return users;
+  }
+
+  Future<List<User>> getFriends(int id) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('friends', where: 'user_id = ?', whereArgs: [id]);
+
+    List<User> users = <User>[];
+
+    for (var friendship in map) {
+      int id = friendship['friend_id'];
+      User user = await getUser(id);
+
+      if (user.id != -1) users.add(user);
+    }
 
     return users;
+  }
+
+  void addFriend(int friendID) async {
+    Friends data = Friends(userID: this._id, friendID: friendID);
+
+    await _database.insert('friends', data.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+
+  void removeFriend(int friendID) async {
+    await _database.delete('friends', where:'user_id = ? AND friend_id = ?', whereArgs: [this._id, friendID]);
   }
 }

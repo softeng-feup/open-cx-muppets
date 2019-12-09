@@ -1,3 +1,4 @@
+import 'package:app/Widgets/Logos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app/Animations/FadeIn.dart';
@@ -20,13 +21,10 @@ class LogoPage extends StatelessWidget {
 
   Widget _getFadeInIcon() {
     return Container(
-      width: 300,
       margin: EdgeInsets.all(25),
       child: FadeIn(
         duration: 2,
-        child: Image.asset(
-          'assets/images/IconOriginal.png',
-        ),
+        child: IconLogo(width: 300,)
       ),
     );
   }
@@ -38,9 +36,7 @@ class LogoPage extends StatelessWidget {
       margin: EdgeInsets.all(25),
       child: FadeIn(
         duration: 2,
-        child: Image.asset(
-          'assets/images/NameLogo.png',
-        ),
+        child: BlackLogo(),
       ),
         
     );
