@@ -26,7 +26,8 @@ class _ConnectPageState extends State<ConnectionsPage> {
     if (microbit.isConnnected()) {
       microbit.subscribe(_onData);
     }
-    _db.getUser(1).then((user) => _connections.add(user));
+    //Uncomment to mock users
+    //_db.getUser(1).then((user) => _connections.add(user));
     super.initState();
   }
 
@@ -88,7 +89,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        pairButton()
+        pairButton(user.id)
       ],
     );
   }
@@ -137,7 +138,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
       ),
     );
   }
-
+  
   Future<String> _microbitDialog(BuildContext context) {
     if (!microbit.isConnnected() && _bluetoothState == BluetoothState.on) {
       TextEditingController _controller = TextEditingController();
@@ -225,6 +226,11 @@ class _ConnectPageState extends State<ConnectionsPage> {
                                       });});
                                 }
                               });
+                            } else {
+                              //Comment to mock users
+                              setState(() {
+                                _active = false;
+                              });
                             }
                           });
                         }
@@ -256,18 +262,19 @@ class _ConnectPageState extends State<ConnectionsPage> {
     );
   }
 
-  Widget pairButton() {
+  Widget pairButton(int id) {
     return Container(
         margin: EdgeInsets.all(8.0),
         child: Center(
           child: RaisedButton(
-            elevation: 30,
+            elevation: 5,
             disabledColor: teal,
+            color: teal,
             padding: EdgeInsets.all(8.0),
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(25.0),
             ),
-            onPressed: null,
+            onPressed: () => _db.addFriend(id),
             child:
             Text("PAIR", style: TextStyle(fontSize: 20, color: Colors.white)),
           ),
