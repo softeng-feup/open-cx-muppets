@@ -211,4 +211,20 @@ class MMDatabase {
     print('Length: ${users.length}');
     return users;
   }
+
+  Future<List<User>> getFriends(int id) async {
+    final List<Map<String, dynamic>> map =
+        await _database.query('friends', where: 'user_id = ?', whereArgs: [id]);
+
+    List<User> users = <User>[];
+
+    for(var friendship in map) {
+      int id = friendship['friend_id'];
+      User user = await getUser(id);
+
+      users.add(user);
+    }
+
+    return users;
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:app/Animations/FadeRoute.dart';
+import 'package:app/Database/Database.dart';
+import 'package:app/Database/User.dart';
 import 'package:app/Pages/FriendProfilePage.dart';
 import 'package:app/Theme.dart';
 import 'package:app/Widgets/Footer.dart';
@@ -10,12 +12,15 @@ import 'package:flutter/material.dart';
 class FriendsPage extends StatefulWidget {
   FriendsPage({Key key, this.title}) : super(key: key);
   final String title;
+  final MMDatabase db = MMDatabase();
 
   @override
   _FriendsPageState createState() => _FriendsPageState();
 }
 
 class _FriendsPageState extends State<FriendsPage> {
+  List<User> friendList = List<User>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,18 +42,23 @@ class _FriendsPageState extends State<FriendsPage> {
     );
   }
 
+  void loadInformation() {
+    Future<List<User>> userFuture = widget.db.getFriends(widget.db.getID());
+
+    userFuture.then((list) {
+      setState(() {
+        friendList = list;
+      });
+    });
+  }
+
   Widget getFriends() {
-    //ir buscar à database
-    List<String> friendList = List<String>();
-
-    friendList.add("Ana Amarelo");
-    friendList.add("Red Resnikov");
-    friendList.add("Mr Very very Serious");
-
     List<Widget> rows = List<Widget>();
 
-    for(int i = 0; i < friendList.length; i++){
-      rows.add(createFriendRow(friendList[i], FriendProfilePage(name: friendList[i])));
+    for (int i = 0; i < friendList.length; i++) {
+      if (friendList[i].id != -1)
+        rows.add(createFriendRow(
+            friendList[i].name, FriendProfilePage(name: friendList[i].name)));
     }
 
     return Container(
@@ -66,9 +76,7 @@ class _FriendsPageState extends State<FriendsPage> {
         width: 400,
         height: 100,
         decoration: BoxDecoration(
-            color: purpleButton,
-            borderRadius: BorderRadius.circular(18.0)
-        ),
+            color: purpleButton, borderRadius: BorderRadius.circular(18.0)),
         child: RaisedButton(
           elevation: 0,
           color: purpleButton,
@@ -76,27 +84,31 @@ class _FriendsPageState extends State<FriendsPage> {
             children: <Widget>[
               getPicture(),
               Expanded(
-                child: Text(contact, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 17.0),),
+                child: Text(
+                  contact,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                ),
               ),
             ],
           ),
-          onPressed: destinationPage == null? (){} : () {
-            Navigator.push(
-              context,
-              FadeRoute(page: destinationPage),
-            );
-          },
-        )
-    );
+          onPressed: destinationPage == null
+              ? () {}
+              : () {
+                  Navigator.push(
+                    context,
+                    FadeRoute(page: destinationPage),
+                  );
+                },
+        ));
   }
 
   getPicture() {
     return Container(
-      padding: EdgeInsets.all(12.0),
-      decoration: new BoxDecoration(
-        borderRadius: new BorderRadius.circular(18.0),
-      ),
-      child: WhiteIconLogo()
-    );
+        padding: EdgeInsets.all(12.0),
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(18.0),
+        ),
+        child: WhiteIconLogo());
   }
 }
