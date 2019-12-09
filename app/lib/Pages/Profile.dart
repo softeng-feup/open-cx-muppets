@@ -139,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget contactsButton(destinationPage) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 10, bottom: 10),
       width: 300,
       child: RaisedButton(
         padding: EdgeInsets.all(12),

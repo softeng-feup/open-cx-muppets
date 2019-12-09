@@ -19,7 +19,8 @@ class GetStartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PageHeader(),
+      appBar: skipable ? PageHeader(back: false)
+        : PageHeader(),
       body: PageView(
         controller: PageController(
           initialPage: 0,
