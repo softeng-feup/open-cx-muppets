@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:core';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:app/MicrobitUARTservice.dart';
 

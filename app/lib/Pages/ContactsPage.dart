@@ -78,11 +78,14 @@ class _ContactsPageState extends State<ContactsPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Flexible(
-              child: Text(
-                contact,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
+                  contact,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
             IconButton(

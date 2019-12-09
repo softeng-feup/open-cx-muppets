@@ -26,6 +26,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
     if (microbit.isConnnected()) {
       microbit.subscribe(_onData);
     }
+    _db.getUser(1).then((user) => _connections.add(user));
     super.initState();
   }
 
@@ -256,19 +257,21 @@ class _ConnectPageState extends State<ConnectionsPage> {
   }
 
   Widget pairButton() {
-    return Center(
-      child: RaisedButton(
-        elevation: 10,
-        color: purpleButton,
-        disabledColor: teal,
-        padding: EdgeInsets.all(12),
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(25.0),
-        ),
-        onPressed: null,
-        child:
+    return Container(
+        margin: EdgeInsets.all(8.0),
+        child: Center(
+          child: RaisedButton(
+            elevation: 30,
+            disabledColor: teal,
+            padding: EdgeInsets.all(8.0),
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(25.0),
+            ),
+            onPressed: null,
+            child:
             Text("PAIR", style: TextStyle(fontSize: 20, color: Colors.white)),
-      ),
+          ),
+        ),
     );
   }
 }
