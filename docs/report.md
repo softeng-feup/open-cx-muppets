@@ -1,8 +1,8 @@
 # openCX-Muppets Development Report
 
-Welcome to the documentation pages of the **MicroMeeting** of **openCX**!
+Welcome to the documentation pages of **MicroMeets** from **openCX**!
 
-You can find here detailed about the (sub)product, hereby mentioned as module, from a high-level vision to low-level implementation decisions, a kind of Software Development Report (see [template](https://github.com/softeng-feup/open-cx/blob/master/docs/templates/Development-Report.md)), organized by discipline (as of RUP): 
+You can find here details about the (sub)product, hereby mentioned as module, from a high-level vision to low-level implementation decisions, a kind of Software Development Report (see [template](https://github.com/softeng-feup/open-cx/blob/master/docs/templates/Development-Report.md)), organized by discipline (as of RUP): 
 
 * Business modeling 
   * [Product Vision](#Product-Vision)
@@ -22,16 +22,12 @@ You can find here detailed about the (sub)product, hereby mentioned as module, f
 
 So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
-Please contact us! 
-
+Feel free contact us!  
 Thank you!
 
-Carlos Jorge Direito Albuquerque (up201706735@fe.up.pt)
-
-Gaspar Santos Pinheiro (up201704700@fe.up.pt)
-
-Sofia de Araujo Lajes (up20170466@fe.up.pt)
-
+Carlos Jorge Direito Albuquerque (up201706735@fe.up.pt)  
+Gaspar Santos Pinheiro (up201704700@fe.up.pt)  
+Sofia de Araujo Lajes (up201704066@fe.up.pt)  
 Vitor Emanuel Moreira Ventuzelos (up201706403@fe.up.pt)
 
 ---
@@ -42,14 +38,13 @@ Our product aims to improve everyone's conference experience, by taking down soc
 ---
 ## Elevator Pitch
 
-We aim to facilitate spontaneous interaction between conference participants, by providing them with a means to find people with similar interests near them and initiate conversations. It's also important to us that the users can keep their privacy and power of choice, as we intend to improve their experience, not enforce anything on them. To achieve this we plan to use a mobile app, installed on the user's phone, (*paired with Micro:Bit systems, implanted in the user's badge*). The app will contain user profiles with tags for interest matching, while the Micro:Bit will simply detect nearby users.
+The goal of this product is to facilitate spontaneous interaction between conference participants, by providing them with a means to find people with similar interests near them and initiate conversations. It's also important to us that the users can keep their privacy and power of choice, as we intend to improve their experience, not enforce anything on them. For this goal we plan to use a mobile app, installed on the user's phone, paired with Micro:Bit systems, implanted in the user's badge. The app will contain user profiles with tags for matching between them, while the Micro:Bit will simply detect nearby users and.
 
 ---
 ## Requirements
 
-> In this section, you should describe all kinds of requirements for your module: functional and non-functional requirements. 
-> 
-> Start by contextualizing your module, describing the main concepts, terms, roles, scope and boundaries of the application domain addressed by the project.
+The following sections describe our users requirements (or at least what we think they need).
+Our module is aimed at networking. Therefore, our main guiding lines are **privacy**, **usability** and **user interactions**. We want the user to share only what he/she wants to share, but always encouraging him/her to interact with other users by making it easy to start a conversation.
 
 ### Use case diagram 
 
@@ -58,7 +53,7 @@ We aim to facilitate spontaneous interaction between conference participants, by
 > Give each use case a concise, results-oriented name. Use cases should reflect the tasks the user needs to be able to accomplish using the system. Include an action verb and a noun. 
 > 
 > Briefly describe each use case mentioning the following:
->
+> 
 >* **Actor**. Name only the actor that will be initiating this use case, i.e. a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks. 
 >* **Description**. Provide a brief description of the reason for and outcome of this use case, or a high-level description of the sequence of actions and the outcome of executing the use case. 
 >* **Preconditions and Post conditions**. Include any activities that must take place, or any conditions that must be true, before the use case can be started (preconditions) and post conditions. Describe also the state of the system at the conclusion of the use case execution (post conditions). 
@@ -66,7 +61,11 @@ We aim to facilitate spontaneous interaction between conference participants, by
 >* **Normal Flow**. Provide a detailed description of the user actions and system responses that will take place during execution of the use case under normal, expected conditions. This dialog sequence will ultimately lead to accomplishing the goal stated in the use case name and description. This is best done as a numbered list of actions performed by the actor, alternating with responses provided by the system. 
 >* **Alternative Flows and Exceptions**. Document other, legitimate usage scenarios that can take place within this use case, stating any differences in the sequence of steps that take place. In addition, describe any anticipated error conditions that could occur during execution of the use case, and define how the system is to respond to those conditions. 
 
-### Sign In/Create Account
+The following use case diagram aims to represent all high-level use cases present in our module:
+
+![Use Case Diagram](https://i.imgur.com/ie3DPpn.jpg)
+
+### Create Profile/Account
 
 #### Actors 
 
@@ -77,66 +76,50 @@ This Use Case involves two actors:
 
 #### Description 
 
-To achieve our goal of **interest matchmaking** we need to receive professional and/or personal information from our users. To do so we associate an account to each user that he/she must **create** on the first interaction with our app or **sign in** to an already existing account.
+When a user connects with another person successfully, he/she gains access to the other person's profile. For this to happen we need to store a profile for each app user.
 
 #### Normal Flow
 
-When the user opens the app he is prompted to **sign in** to an existing account or to **create a new one**. After that, the flow can take two possible sequences: 
+To create a new profile, each user has simply to go to the profile section and then just enter the information he/she wants to share with his/hers connections.
+ 
+The steps for this use case are as follows:
+- From the **home screen** the user goes to the **profile section**;
+- He/She enters personal information like the user's name, nationality, occupation and company.
+- The user can also add contacts so that after a session of networking with other people, he/she can easily be contacted outside of the app and the conference.
 
-- **Sign In**:
-    1. The app transitions to a new page where the user must input his/hers email and password;
-    2. The user must press the **Log In Button** so that the app contacts the server to check if the information is corresponds to the one stored in the database;
-    3. If the email and password are correct, the user is taken to the main page of the app. 
-    4. Otherwise a proper message is displayed to the user.
-    
-- **Create Account**
-    1. The user is presented with a form where he must input some mandatory information like the email and password.
-    2. The user can choose which information he/she wants to give the app.
-    3. After the form is complete the user must press the **Submit Button**.
-    4. The app contacts the server so that it stores the new user information into the database.  
-    5. The user is taken to the main page of the app.
+It is **important** for us that the user feels free when using our app. This way, the user is 100% free to enter only some information and leave other details out of the app. The user can even choose to not enter any kind of information, but, of course, wont get the full potential of our app.
 
-The following UML diagram aims to represent this use case with User-App and App-Server interactions. 
-![Use Case exemplifying sign in and sign up on the app](https://i.imgur.com/Z39nIDV.png)
+#### Alternative Flows and Exceptions
 
-### Alternative Flows and Exceptions
-
-When creating an account, if the email input by the user is already associated with an existing account, the user is notified of this. 
-
+Because our app is all about networking and facilitating the share of information between our users, any kind of information is acceptable to enter in any field as it is only going to be visualized by other users.
 
 
 ### User stories
->This section will contain the requirements of the product described as **user stories**, organized in a global **user story map** with **user roles** or **themes**.
->
->For each theme, or role, you may add a small description. User stories should be detailed in the tool you decided to use for project management (e.g. trello or github projects).
->
->A user story is a description of desired functionality told from the perspective of the user or customer. A starting template for the description of a user story is 
->
 
-Users have a lot of needs. We want our product to satisfy the following ones:
-1. **I want** to be able to accept or decline a proposal for a connection **so that** I can choose who I stay in touch with.
-2. **I want** to be able to choose which information I share **so that** I can protect my privacy;
-3. **I want** to easily find other people that have similar interests as me **so that** we have effective interactions;
-4. **I want** to leave a conference with more connections with people that are experiment in my area **so that** I can learn new useful things;
-5. **I want** a way to overcome the awkwardness of starting a conversation **so that** I can effectively interact with others;
-6. **I want** to trade information with my badge **so that** it becomes funnier and easier;
-7. **I want** to use an app to enhance my conference experience **so that** I can use it easily;
+The following image represents our current global user story map:
+![User Story Map](https://i.imgur.com/G4R7nsJ.jpg)
 
-The following image represents our current global user story map (work in progress):
-![](https://i.imgur.com/F1xfN7I.jpg)
+The cards (starting at the row with tag 'User stories')  can be organized by row:  
+1. **Profile Management** - login, register, editing profile  
+Value - should have (Login and Register are not mandatory but useful)  
+Estimated effort - M
+3. **Interests Management** - adding and changing interests, seeing others interests  
+Value - must have (Without interests the module does not make sense)  
+Estimated effort - S
+5. **Matching** - network with others, match by similar interests, enabling and disabling the matching system  
+Value - must have  
+Estimated effort - XL
+7. **Friends** - make friends from previous connections, see friends profiles  
+Value - could have (It is fun to see other's profiles, but it is more an extra)  
+Estimated effort - XS
+9. **Smart Badge** - make bluetooth connection easy, smart badge tech  
+Value - must have  
+Estimated effort - XL
 
 
->**INVEST in good user stories**. 
-You may add more details after, but the shorter and complete, the better. In order to decide if the user story is good, please follow the [INVEST guidelines](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/).
->
->**User interface mockups**.
-After the user story text, you should add a draft of the corresponding user interfaces, a simple mockup or draft, if applicable.
->
->**Acceptance tests**.
+**Acceptance tests**.
 For each user story you should write also the acceptance tests (textually in Gherkin), i.e., a description of scenarios (situations) that will help to confirm that the system satisfies the requirements addressed by the user story.
->
->**Value and effort**.
-At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it, for example, using t-shirt sizes (XS, S, M, L, XL).
+
 
 ### Domain model
 
@@ -164,6 +147,14 @@ At the end, it is good to add a rough indication of the value of the user story 
 >The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams or component diagrams (separate or integrated), showing the physical structure of the system.
 >
 >It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications (Flutter vs ReactNative vs ...), languages to program with microbit, and communication with things (beacons, sensors, etc.).
+
+![Physical diagram](https://i.imgur.com/rr9Gvl4.png)
+
+The app is divided into 3 parts:  
+1. A mobile application, with which the user can interact, built in flutter.  
+2. A server, which houses user information and is consulted by the mobile app.  
+3. A module consisting of two Microbits bolted together, one of which connects to the mobile app via BLE and another one that trades information with nearby users' modules via radio. This module is programmed with the Microbit's own version of Javascript/Typescript. The choice to use two Microbits connected via Pins was made due to their limitation on the use of radio and BLE concurrently.  
+
 
 ### Prototype
 >To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.
