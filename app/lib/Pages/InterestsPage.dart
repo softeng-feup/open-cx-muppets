@@ -7,9 +7,10 @@ import 'package:app/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 
 class InterestsPage extends StatefulWidget {
-  InterestsPage({Key key, this.title}) : super(key: key);
   final String title;
   final MMDatabase db = MMDatabase();
+
+  InterestsPage({Key key, this.title}) : super(key: key);
 
   @override
   _InterestsPageState createState() => _InterestsPageState();
@@ -70,6 +71,7 @@ class _InterestsPageState extends State<InterestsPage> {
 
   Widget createInterestRow(String interest) {
     return Container(
+        key: Key('interest'),
         margin: EdgeInsets.only(top: 10, bottom: 10),
         padding: EdgeInsets.all(4.0),
         width: 300,
@@ -88,6 +90,7 @@ class _InterestsPageState extends State<InterestsPage> {
               ),
             ),
             IconButton(
+              key: Key('delete'),
               icon: Icon(
                 Icons.clear,
                 color: Colors.white,
@@ -111,11 +114,13 @@ class _InterestsPageState extends State<InterestsPage> {
           return AlertDialog(
             title: Text('Add Interest:'),
             content: TextField(
+              key: Key('textField'),
               autofocus: true,
               controller: _controller,
             ),
             actions: <Widget>[
               RawMaterialButton(
+                key: Key('confirm'),
                 child: Text("Add"),
                 onPressed: () {
                   Navigator.of(context).pop(_controller.text.toUpperCase());
@@ -128,6 +133,7 @@ class _InterestsPageState extends State<InterestsPage> {
 
   Widget getInterestsButton() {
     return RawMaterialButton(
+      key: Key('add'),
       onPressed: () {
         createAlertDialog(this.context).then((input) {
           if (input != null) {

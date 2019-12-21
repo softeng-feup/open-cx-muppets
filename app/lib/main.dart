@@ -1,5 +1,4 @@
 import 'package:app/MicroMeets.dart';
-import 'package:app/Pages/GetStartedPages.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -9,18 +8,5 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MicroMeets();
-  }
-}
-
-class Dummy extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dummy',
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-      ),
-      home: GetStartedPage(),
-    );
   }
 }

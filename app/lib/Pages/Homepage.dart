@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 30.0),
               width: 150,
             ),
-            getButton("Connect", context, ConnectionsPage()),
+            getButton("Connect", context, ConnectionsPage(key: Key('connectionsPage'))),
             getButton("Profile", context, ProfilePage()),
             getButton("Friends", context, FriendsPage()),
             getButton("Interests", context, InterestsPage()),
@@ -40,6 +40,7 @@ class HomePage extends StatelessWidget {
 
   Widget getButton(String option, BuildContext context, Widget destinationPage) {
     return Container(
+      key: Key(option),
       padding: EdgeInsets.only(top: 10),
       width: 250,
       child: RaisedButton(

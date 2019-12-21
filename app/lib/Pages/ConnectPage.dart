@@ -9,8 +9,12 @@ import 'package:app/MicroBit.dart';
 import 'dart:convert';
 
 class ConnectionsPage extends StatefulWidget {
+  _ConnectPageState state;
+
+  ConnectionsPage({Key key}) : super(key: key);
+
   @override
-  _ConnectPageState createState() => _ConnectPageState();
+  _ConnectPageState createState() => state = _ConnectPageState();
 }
 
 class _ConnectPageState extends State<ConnectionsPage> {
@@ -20,6 +24,14 @@ class _ConnectPageState extends State<ConnectionsPage> {
   static BluetoothState _bluetoothState;
   static List<User> _connections = <User>[];
   final _db = MMDatabase();
+
+  bool getActive() {
+    return _active;
+  }
+
+  void setBluetooth(bool value) {
+    value ? _bluetoothState=BluetoothState.on : _bluetoothState=BluetoothState.off;
+  }
 
   @override
   void initState() {
@@ -202,6 +214,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
             centerTitle: true,
             actions: <Widget>[
               Switch(
+                key: Key('toggle'),
                 value: _active,
                 activeColor: teal,
                 onChanged: (_bluetoothState == BluetoothState.off)
