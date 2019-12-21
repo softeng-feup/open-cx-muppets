@@ -362,6 +362,8 @@ We tested the following features thoroughly:
 
 These are the main features of our app. All of these features were tested and approved.
 For app features we developed some widget and integration tests using Flutter Test and Flutter Driver API's.
+Using widget testing we were able to test navigation between some pages. The widget test can be found in the [test folder](../app/test/). Although we only tested one navigation example, the others would be pretty much the same so we decided to move on to the more complex integration tests. These can be found in the [test_driver folder](../app/test_driver/).
+With these automated tests we covered the tests 4, 6, 7, 8, 9, 10, 11 and 12. 
 
 ---
 ## Configuration and change management
