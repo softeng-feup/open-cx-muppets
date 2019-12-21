@@ -9,12 +9,11 @@ import 'package:app/MicroBit.dart';
 import 'dart:convert';
 
 class ConnectionsPage extends StatefulWidget {
-  _ConnectPageState state;
-
-  ConnectionsPage({Key key}) : super(key: key);
+  ConnectionsPage({Key key, this.mockUsers = false}) : super(key: key);
+  final mockUsers;
 
   @override
-  _ConnectPageState createState() => state = _ConnectPageState();
+  _ConnectPageState createState() => _ConnectPageState();
 }
 
 class _ConnectPageState extends State<ConnectionsPage> {
@@ -24,14 +23,6 @@ class _ConnectPageState extends State<ConnectionsPage> {
   static BluetoothState _bluetoothState;
   static List<User> _connections = <User>[];
   final _db = MMDatabase();
-
-  bool getActive() {
-    return _active;
-  }
-
-  void setBluetooth(bool value) {
-    value ? _bluetoothState=BluetoothState.on : _bluetoothState=BluetoothState.off;
-  }
 
   @override
   void initState() {
@@ -150,7 +141,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
       ),
     );
   }
-  
+
   Future<String> _microbitDialog(BuildContext context) {
     if (!microbit.isConnnected() && _bluetoothState == BluetoothState.on) {
       TextEditingController _controller = TextEditingController();
@@ -233,17 +224,23 @@ class _ConnectPageState extends State<ConnectionsPage> {
                                 } else {
                                   print('Connection failed');
                                   _errorDialog(context,
-                                      'Microbit with name $name is not accessible. Please try again!')
-                                      .then((id) { setState(() {
-                                        _active = false;
-                                      });});
+                                          'Microbit with name $name is not accessible. Please try again!')
+                                      .then((id) {
+                                    setState(() {
+                                      _active = false;
+                                    });
+                                  });
                                 }
                               });
                             } else {
                               //Comment to mock users
-                              setState(() {
-                                _active = false;
-                              });
+                              if (widget.mockUsers) {
+                                _onData([49,36]);
+                              } else {
+                                setState(() {
+                                  _active = false;
+                                });
+                              }
                             }
                           });
                         }
@@ -256,6 +253,7 @@ class _ConnectPageState extends State<ConnectionsPage> {
               ? _buildBluetoothOn()
               : _buildBluetoothOff(),
           floatingActionButton: FloatingActionButton(
+            key: Key('refresh'),
             backgroundColor: (_bluetoothState == BluetoothState.on && _active)
                 ? purpleButton
                 : Colors.grey,
@@ -263,10 +261,10 @@ class _ConnectPageState extends State<ConnectionsPage> {
             child: Icon(Icons.refresh),
             onPressed: (_bluetoothState == BluetoothState.on && _active)
                 ? () => setState(() {
-                    _idsList.clear();
-                    _connections.clear();
-                    print('clicked');
-                  })
+                      _idsList.clear();
+                      _connections.clear();
+                      print('clicked');
+                    })
                 : null,
           ),
           bottomNavigationBar: Footer(color: purpleButton),
@@ -277,21 +275,21 @@ class _ConnectPageState extends State<ConnectionsPage> {
 
   Widget pairButton(int id) {
     return Container(
-        margin: EdgeInsets.all(8.0),
-        child: Center(
-          child: RaisedButton(
-            elevation: 5,
-            disabledColor: teal,
-            color: teal,
-            padding: EdgeInsets.all(8.0),
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(25.0),
-            ),
-            onPressed: () => _db.addFriend(id),
-            child:
-            Text("PAIR", style: TextStyle(fontSize: 20, color: Colors.white)),
+      margin: EdgeInsets.all(8.0),
+      child: Center(
+        child: RaisedButton(
+          elevation: 5,
+          disabledColor: teal,
+          color: teal,
+          padding: EdgeInsets.all(8.0),
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(25.0),
           ),
+          onPressed: () => _db.addFriend(id),
+          child:
+              Text("PAIR", style: TextStyle(fontSize: 20, color: Colors.white)),
         ),
+      ),
     );
   }
 }

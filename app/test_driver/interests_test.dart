@@ -3,7 +3,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 //To run the following tests run the following command in the terminal:
-// flutter drive --target=test_driver\app.dart
+// flutter drive --target=test_driver\interests.dart
 void main() {
   FlutterDriver driver;
   

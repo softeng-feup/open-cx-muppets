@@ -62,8 +62,8 @@ class _FriendsPageState extends State<FriendsPage> {
     List<Widget> rows = List<Widget>();
 
     for (int i = 0; i < friendList.length; i++) {
-        rows.add(createFriendRow(
-            friendList[i].name, FriendProfilePage(user: friendList[i])));
+      rows.add(createFriendRow(
+          friendList[i].name, FriendProfilePage(user: friendList[i])));
     }
 
     return Container(
@@ -76,6 +76,7 @@ class _FriendsPageState extends State<FriendsPage> {
 
   Widget createFriendRow(String contact, destinationPage) {
     return Container(
+        key: Key('friend'),
         margin: EdgeInsets.only(top: 10, bottom: 10),
         padding: EdgeInsets.all(12.0),
         width: 400,
@@ -101,11 +102,12 @@ class _FriendsPageState extends State<FriendsPage> {
               ? () {}
               : () async {
                   final removed = await Navigator.push(
-                    context,
-                    FadeRoute(page: destinationPage),
-                  ) ?? false;
+                        context,
+                        FadeRoute(page: destinationPage),
+                      ) ??
+                      false;
 
-                  if(removed) {
+                  if (removed) {
                     loadInformation();
                   }
                 },

@@ -35,6 +35,7 @@ class FriendProfilePage extends StatelessWidget {
       ),
       bottomNavigationBar: Footer(color: bluePage),
       floatingActionButton: FloatingActionButton(
+        key: Key('delete'),
         onPressed: () {
           _db.removeFriend(user.id);
           Navigator.of(context).pop(true);

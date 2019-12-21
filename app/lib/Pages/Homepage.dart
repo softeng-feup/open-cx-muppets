@@ -11,6 +11,10 @@ import '../Animations/FadeRoute.dart';
 import '../Theme.dart';
 
 class HomePage extends StatelessWidget {
+  final mockUsers;
+
+  const HomePage({Key key, this.mockUsers = false}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +30,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 30.0),
               width: 150,
             ),
-            getButton("Connect", context, ConnectionsPage(key: Key('connectionsPage'))),
+            getButton("Connect", context, ConnectionsPage(mockUsers: mockUsers)),
             getButton("Profile", context, ProfilePage()),
             getButton("Friends", context, FriendsPage()),
             getButton("Interests", context, InterestsPage()),
